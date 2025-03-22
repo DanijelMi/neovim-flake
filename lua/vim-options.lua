@@ -46,7 +46,7 @@ vim.opt.tabstop = 2
 vim.opt.number = true         -- Print the line number in front of each line
 vim.opt.wrap = true           -- Soft wrapping
 vim.opt.breakindent = true    -- Every wrapped line inherits indent
-vim.opt.signcolumn = "auto:8" -- Keep signcolumn on by default
+vim.opt.signcolumn = "auto:2" -- Keep signcolumn on by default
 vim.opt.cursorline = true     -- Show which line your cursor is on
 vim.opt.scrolloff = 10        -- Minimal number of screen lines to keep above and below the cursor.
 
