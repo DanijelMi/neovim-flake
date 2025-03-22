@@ -36,11 +36,9 @@ vim.opt.background = "dark" -- Dark or light mode
 vim.opt.ruler = true -- Show line and col numbers in status
 
 -- TAB AND SHIFT OPTIONS
-vim.opt.expandtab = true -- In insert mode use x spaces when pressing tab
 vim.opt.shiftround = true -- Round indent to multiple of shiftwidth
 vim.opt.shiftwidth = 2 -- How many spaces represent an indent
-vim.opt.softtabstop = 2
-vim.opt.tabstop = 2
+vim.opt.tabstop = 2 -- Display width of a tab character
 
 -- LINE DISPLAY
 vim.opt.number = true -- Print the line number in front of each line
