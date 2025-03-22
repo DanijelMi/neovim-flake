@@ -112,5 +112,13 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	command = "startinsert",
 })
 
+vim.api.nvim_create_autocmd("TermOpen", {
+	desc = "Disable line numbers in terminal buffers",
+	group = vim.api.nvim_create_augroup("term-disable-line-numbers", { clear = true }),
+	callback = function()
+		vim.wo.number = false
+		vim.wo.relativenumber = false
+	end,
+})
 -- TODO figure this one out
 vim.api.nvim_set_keymap("n", "<leader>x", ":w !bash<CR>", { noremap = true, silent = true })
