@@ -120,5 +120,15 @@ vim.api.nvim_create_autocmd("TermOpen", {
 		vim.wo.relativenumber = false
 	end,
 })
+
+-- Custom Lua function opens a terminal with a horizontal split
+vim.api.nvim_create_user_command(
+	"Te", -- The name of the new command
+	function()
+		vim.cmd("horizontal terminal")
+	end, -- Inline function
+	{ bang = true } -- Allow the command to be invoked with '!'
+)
+
 -- TODO figure this one out
 vim.api.nvim_set_keymap("n", "<leader>x", ":w !bash<CR>", { noremap = true, silent = true })
