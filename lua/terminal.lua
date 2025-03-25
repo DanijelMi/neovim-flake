@@ -94,3 +94,4 @@ vim.api.nvim_set_keymap(
 	'"vy :<C-u>lua terminal_send(false, "visual")<CR>gv',
 	{ noremap = true, silent = true, desc = "Run current selection to the first visible terminal buffer" }
 )
+vim.api.nvim_set_keymap("n", "<leader>tt", ":Te<CR>", { noremap = true, silent = true, desc = "Open hsplit terminal" })

@@ -43,6 +43,7 @@ vim.opt.tabstop = 2 -- Display width of a tab character
 -- LINE DISPLAY
 vim.opt.number = true -- Print the line number in front of each line
 vim.opt.wrap = true -- Soft wrapping
+vim.opt.smoothscroll = true -- Don't skip over wrapped lines when scrolling
 vim.opt.breakindent = true -- Every wrapped line inherits indent
 vim.opt.signcolumn = "auto:2" -- Keep signcolumn on by default
 vim.opt.cursorline = true -- Show which line your cursor is on
