@@ -8,9 +8,6 @@ return {
       require("catppuccin").setup({
         transparent_background = true,
       })
-      vim.cmd.colorscheme("catppuccin")
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi("Comment gui=bold")
     end,
   },
   {

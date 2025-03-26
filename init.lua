@@ -16,4 +16,9 @@ require("vim-options") -- Import vim options
 require("terminal") -- All things :terminal
 require("lazy").setup("plugins") -- Init lazyvim
 
+-- vim.cmd.colorscheme("catppuccin")
+
 -- Staging zone temporary logic goes here
+
+-- Save file in normal mode with Ctrl-s
+vim.keymap.set("n", "<C-s>", ":w<CR>", { silent = true })
