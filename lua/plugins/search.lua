@@ -73,6 +73,13 @@ return {
 				desc = "[F]zflua [b]uffers",
 			},
 			{
+				"<leader>f/",
+				function()
+					require("fzf-lua").lgrep_curbuf()
+				end,
+				desc = "[F]zflua [/]Search current buf",
+			},
+			{
 				"<leader>fa",
 				function()
 					require("fzf-lua").builtin()
