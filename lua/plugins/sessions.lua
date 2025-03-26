@@ -17,7 +17,6 @@ return {
 		},
 		config = function()
 			require("nvim-possession").setup({
-				autoload = true,
 				autoswitch = {
 					enable = true, -- Close buffers not related to the newly switched session
 				},
@@ -32,7 +31,7 @@ return {
 				desc = "📌list sessions",
 			},
 			{
-				"<leader>sn",
+				"<leader>sc",
 				function()
 					require("nvim-possession").new()
 				end,
