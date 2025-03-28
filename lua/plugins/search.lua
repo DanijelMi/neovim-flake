@@ -47,7 +47,9 @@ return {
 		-- optional for icon support
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			require("fzf-lua").setup({ "hide" })
+			require("fzf-lua").setup({
+				-- "hide", -- Keep the fzf menu buffers in background so that we can use .resume()
+			})
 		end,
 		opts = {},
 		keys = {
