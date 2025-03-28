@@ -3,6 +3,7 @@ return {
 	{ "rebelot/kanagawa.nvim" }, -- Colorscheme
 	{ "EdenEast/nightfox.nvim" }, -- Colorscheme
 	{ "navarasu/onedark.nvim" }, -- Colorscheme
+	{ "sainnhe/everforest" }, -- Colorscheme
 	{ "rose-pine/neovim", name = "rose-pine" }, -- Colorscheme
 	{
 		"catppuccin/nvim", -- Colorscheme

@@ -49,6 +49,9 @@ return {
 			winbar = {
 				lualine_a = { "filename" },
 			},
+			inactive_winbar = {
+				lualine_a = { "filename" },
+			},
 			extensions = {},
 		})
 	end,
