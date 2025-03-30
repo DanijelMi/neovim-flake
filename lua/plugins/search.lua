@@ -1,48 +1,5 @@
 return {
 	{
-		"ThePrimeagen/harpoon",
-		branch = "harpoon2",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = {
-			menu = {
-				width = vim.api.nvim_win_get_width(0) - 4,
-			},
-			settings = {
-				save_on_toggle = true,
-			},
-		},
-		keys = function()
-			local keys = {
-				{
-					"<leader>H",
-					function()
-						require("harpoon"):list():add()
-					end,
-					desc = "Harpoon File",
-				},
-				{
-					"<leader>h",
-					function()
-						local harpoon = require("harpoon")
-						harpoon.ui:toggle_quick_menu(harpoon:list())
-					end,
-					desc = "Harpoon Quick Menu",
-				},
-			}
-			-- Create 5 binds for jumping to files
-			for i = 1, 5 do
-				table.insert(keys, {
-					"<leader>" .. i,
-					function()
-						require("harpoon"):list():select(i)
-					end,
-					desc = "Harpoon to File " .. i,
-				})
-			end
-			return keys
-		end,
-	},
-	{
 		"ibhagwan/fzf-lua",
 		-- optional for icon support
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -82,14 +39,21 @@ return {
 				desc = "[F]zflua [/]Search current buf",
 			},
 			{
-				"<leader>fa",
+				"<leader>f?",
 				function()
 					require("fzf-lua").builtin()
 				end,
 				desc = "[F]zflua [a]ll menus fzf-lua has",
 			},
 			{
-				"<leader>fC",
+				"<leader>fa",
+				function()
+					require("fzf-lua").args()
+				end,
+				desc = "[F]zflua [a]rglist",
+			},
+			{
+				"<leader>fc",
 				function()
 					require("fzf-lua").colorschemes()
 				end,
@@ -115,6 +79,13 @@ return {
 					require("fzf-lua").oldfiles()
 				end,
 				desc = "[F]ile [h]istory",
+			},
+			{
+				"<leader>fz",
+				function()
+					require("fzf-lua").zoxide()
+				end,
+				desc = "[F]zflua [Z]oxide",
 			},
 			{
 				"<leader>fr",

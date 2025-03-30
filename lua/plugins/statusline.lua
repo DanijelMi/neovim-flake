@@ -33,7 +33,16 @@ return {
 							return require("nvim-possession").status() ~= nil
 						end,
 					},
-					{ "buffers" },
+					{
+						function()
+							-- Retrieve the arglist
+							local arglist = vim.fn.argv()
+							-- Format it into a string representation
+							local arglist_str = table.concat(arglist, " ")
+							-- Return formatted arglist or a placeholder if empty
+							return (arglist_str == "[]") and "[No Arglist]" or arglist_str
+						end,
+					},
 				},
 				lualine_x = { "encoding", "fileformat", "filetype" },
 				lualine_y = { "progress" },
