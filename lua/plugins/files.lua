@@ -22,7 +22,7 @@ return {
 		end,
 		lazy = false,
 		keys = {
-			{ "<leader>n", "<CMD>Neotree filesystem toggle<CR>", mode = "n", desc = "Toggle Neotree view" },
+			{ "<leader>N", "<CMD>Neotree filesystem toggle<CR>", mode = "n", desc = "Toggle Neotree view" },
 		},
 	},
 	{

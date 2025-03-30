@@ -12,11 +12,11 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("TermOpen", {
-	desc = "Automatically enter insert mode when opening a terminal",
-	group = vim.api.nvim_create_augroup("term-open-startinsert", { clear = true }),
-	command = "startinsert",
-})
+-- vim.api.nvim_create_autocmd("TermOpen", {
+-- 	desc = "Automatically enter insert mode when opening a terminal",
+-- 	group = vim.api.nvim_create_augroup("term-open-startinsert", { clear = true }),
+-- 	command = "startinsert",
+-- })
 
 -- :Te to horizontal split an existing, otherwise a new terminal
 vim.api.nvim_create_user_command("Te", function()

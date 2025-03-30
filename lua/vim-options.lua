@@ -66,16 +66,6 @@ vim.keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set("n", "<up>", '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set("n", "<down>", '<cmd>echo "Use j to move!!"<CR>')
 
---  Use CTRL+<hjkl> to switch between windows
-vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
-vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
-vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
-vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
-
--- Use tab-like navigation but for buffers (gb, gB)
-vim.api.nvim_set_keymap("n", "gb", ":bnext<CR>", { noremap = true, silent = true, desc = "Switch to next bufffer" })
-vim.api.nvim_set_keymap("n", "gB", ":bprev<CR>", { noremap = true, silent = true, desc = "Switch to previous bufffer" })
-
 -- GENERAL AUTOCOMMANDS
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {

@@ -20,5 +20,3 @@ require("lazy").setup("plugins") -- Init lazyvim
 
 -- Staging zone temporary logic goes here
 
--- Save file in normal mode with Ctrl-s
-vim.keymap.set("n", "<C-s>", ":w<CR>", { silent = true })
