@@ -58,10 +58,5 @@ return {
 		--
 		--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
 		--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-		-- Treesitter-based smart folding
-
-		vim.wo.foldmethod = "expr"
-		vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-		vim.o.foldlevelstart = 3
 	end,
 }
