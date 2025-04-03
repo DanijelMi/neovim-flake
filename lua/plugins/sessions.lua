@@ -15,13 +15,11 @@ return {
 		dependencies = {
 			"ibhagwan/fzf-lua",
 		},
-		config = function()
-			require("nvim-possession").setup({
-				autoswitch = {
-					enable = true, -- Close buffers not related to the newly switched session
-				},
-			})
-		end,
+		opts = {
+			autoswitch = {
+				enable = true, -- Close buffers not related to the newly switched session
+			},
+		},
 		keys = {
 			{
 				"<leader>sl",
