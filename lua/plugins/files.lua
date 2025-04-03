@@ -1,31 +1,5 @@
 return {
 	{
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v3.x",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-			"MunifTanjim/nui.nvim",
-			-- "3rd/image.nvim",           -- Optional image support in preview window: See `# Preview Mode` for more information
-		},
-		config = function()
-			local neotree = require("neo-tree")
-			neotree.setup({
-				close_if_last_window = true,
-				filesystem = {
-					hijack_netrw_behavior = "disabled",
-					follow_current_file = {
-						enabled = true,
-					},
-				},
-			})
-		end,
-		lazy = false,
-		keys = {
-			{ "<leader>N", "<CMD>Neotree filesystem toggle<CR>", mode = "n", desc = "Toggle Neotree view" },
-		},
-	},
-	{
 		"echasnovski/mini.files",
 		version = false,
 		lazy = false,
@@ -121,6 +95,29 @@ return {
 				mode = "n",
 				desc = "Open mini.files from CWD",
 			},
+		},
+	},
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+			-- "3rd/image.nvim",           -- Optional image support in preview window: See `# Preview Mode` for more information
+		},
+		opts = {
+			close_if_last_window = true,
+			filesystem = {
+				hijack_netrw_behavior = "disabled",
+				follow_current_file = {
+					enabled = true,
+				},
+			},
+		},
+		lazy = false,
+		keys = {
+			{ "<leader>N", "<CMD>Neotree filesystem toggle<CR>", mode = "n", desc = "Toggle Neotree view" },
 		},
 	},
 }
