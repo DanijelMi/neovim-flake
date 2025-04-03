@@ -34,7 +34,10 @@ vim.api.nvim_create_user_command("DiffOrig", function()
 	vim.cmd.diffthis() -- current buffer
 end, {})
 
--- Arglist
+-- Arglist - native replacement to jump-like plugins
+-- https://github.com/cbochs/grapple.nvim
+-- https://github.com/otavioschwanck/arrow.nvim
+-- https://github.com/ThePrimeagen/harpoon/tree/harpoon2
 vim.keymap.set(
 	"n",
 	"<leader>aa",
