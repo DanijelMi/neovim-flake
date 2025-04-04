@@ -10,9 +10,6 @@ vim.opt.history = 10000 -- Stored history of : commands and / searches
 vim.opt.undolevels = 1000 -- Stored history of changes that can be undone
 vim.opt.complete = ".,w,b,u,t" -- What files/buffers to scan for auto-complete
 
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
-vim.g.mapleader = "\\" -- Leader key
-vim.g.maplocalleader = "\\" -- Leader key
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
@@ -34,6 +31,8 @@ end)
 vim.opt.laststatus = 2 -- Always show status line
 vim.opt.background = "dark" -- Dark or light mode
 vim.opt.ruler = true -- Show line and col numbers in status
+vim.opt.list = true
+vim.opt.listchars = { space = "·", tab = "→ " }
 
 -- TAB AND SHIFT OPTIONS
 vim.opt.shiftround = true -- Round indent to multiple of shiftwidth
@@ -47,7 +46,7 @@ vim.opt.smoothscroll = true -- Don't skip over wrapped lines when scrolling
 vim.opt.breakindent = true -- Every wrapped line inherits indent
 vim.opt.signcolumn = "auto:2" -- Keep signcolumn on by default
 vim.opt.cursorline = true -- Show which line your cursor is on
-vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.scrolloff = 5 -- Minimal number of screen lines to keep above and below the cursor.
 
 -- DIRECTORY-RELATED OPTIONS
 vim.opt.updatetime = 1000 -- Time in idle ms before auto-saving swap file to disk
@@ -59,6 +58,8 @@ vim.opt.splitbelow = true -- When h-splitting window, move focus below
 
 vim.opt.inccommand = "split" -- Preview substitutions live, in a temporary split window
 
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
 -- NAVIGATION
 -- No arrows
 vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
@@ -67,9 +68,8 @@ vim.keymap.set("n", "<up>", '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set("n", "<down>", '<cmd>echo "Use j to move!!"<CR>')
 
 -- GENERAL AUTOCOMMANDS
--- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
+	desc = "Highlight when yanking text",
 	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
@@ -77,7 +77,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- CUSTOM BINDS
--- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 -- Sudo write for non root files
 vim.keymap.set("c", "w!!", "w !sudo tee % > /dev/null", { noremap = true, silent = true, desc = "Sudo write file" })

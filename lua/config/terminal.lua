@@ -35,7 +35,7 @@ vim.api.nvim_create_user_command("Te", function()
 end, { bang = true })
 
 -- Send a command to a terminal
-function terminal_send(execute, mode)
+local function terminal_send(execute, mode)
 	local first_terminal_chan = get_first_visible_terminal()
 	local command_to_paste
 	if mode == "visual" then
@@ -50,7 +50,7 @@ function terminal_send(execute, mode)
 end
 
 -- Return first terminal channel present, that is visible in a window, in the current tab
-function get_first_visible_terminal()
+local function get_first_visible_terminal()
 	local terminal_chans = {}
 	local tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
 	for _, chan in pairs(vim.api.nvim_list_chans()) do
@@ -67,6 +67,22 @@ function get_first_visible_terminal()
 		return left["buffer"] < right["buffer"]
 	end)
 	return terminal_chans[1] and terminal_chans[1]["id"] or nil
+end
+
+-- Opens a terminal with the working directory of the focused buffer
+function open_terminal_curbuf()
+	-- Get the full path of the currently focused buffer
+	local filepath = vim.api.nvim_buf_get_name(0)
+	-- Extract the directory from the filepath
+	local dir = vim.fn.fnamemodify(filepath, ":p:h")
+	-- Check if the directory is valid
+	if vim.fn.isdirectory(dir) == 1 then
+		local shell = vim.o.shell -- Get the shell Neovim is using
+		local cmd = string.format("cd %s && %s", vim.fn.shellescape(dir), shell)
+		vim.cmd("terminal " .. cmd)
+	else
+		print("Failed to find directory for buffer.")
+	end
 end
 
 -- Keybinds for executing text into a terminal
@@ -95,3 +111,9 @@ vim.api.nvim_set_keymap(
 	{ noremap = true, silent = true, desc = "Append current selection to the first visible terminal buffer" }
 )
 vim.api.nvim_set_keymap("n", "<leader>tt", ":Te<CR>", { noremap = true, silent = true, desc = "Open hsplit terminal" })
+vim.api.nvim_set_keymap(
+	"n",
+	"<leader>tT",
+	":lua open_terminal_curbuf()<CR>",
+	{ noremap = true, silent = true, desc = "Open hsplit terminal" }
+)
