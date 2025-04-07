@@ -101,9 +101,9 @@ return {
 					-- Open Terminal Here TODO this feature
 					-- vim.keymap.set("n", "gt", open_terminal, { buffer = b, desc = "Open Terminal Here" })
 					-- Create binds for quickly creating new splits
-					map_split(b, "<C-s>", "belowright horizontal")
-					map_split(b, "<C-v>", "belowright vertical")
-					map_split(b, "<C-t>", "tab")
+					map_split(b, "gs", "belowright horizontal")
+					map_split(b, "gv", "belowright vertical")
+					map_split(b, "gt", "tab")
 				end,
 			})
 		end,
