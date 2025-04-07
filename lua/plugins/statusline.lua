@@ -28,9 +28,9 @@ return {
 				lualine_b = { "branch", "diff", "diagnostics" },
 				lualine_c = {
 					{
-						require("nvim-possession").status,
-						cond = function()
-							return require("nvim-possession").status() ~= nil
+						function()
+							local session_name = require("auto-session.lib").current_session_name(true)
+							return session_name ~= "" and "📌 " .. (session_name or "") or ""
 						end,
 					},
 					{
