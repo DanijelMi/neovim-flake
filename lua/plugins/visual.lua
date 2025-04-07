@@ -13,40 +13,6 @@ return {
 		end,
 	},
 	{
-		"echasnovski/mini.pairs", -- Auto-close brackets, quotes, etc.
-		version = false,
-		config = function()
-			require("mini.pairs").setup()
-		end,
-	},
-	{
-		"echasnovski/mini.hipatterns", -- Highlight certain keywords and color codes
-		version = false,
-		config = function()
-			local hipatterns = require("mini.hipatterns")
-			hipatterns.setup({
-				-- Table with highlighters (see |MiniHipatterns.config| for more details).
-				-- Nothing is defined by default. Add manually for visible effect.
-				highlighters = {
-					-- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
-					fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
-					hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
-					todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
-					note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
-					-- Highlight hex color strings (`#rrggbb`) using that color
-					hex_color = hipatterns.gen_highlighter.hex_color(),
-				},
-				-- Delays (in ms) defining asynchronous highlighting process
-				delay = {
-					-- How much to wait for update after every text change
-					text_change = 200,
-					-- How much to wait for update after window scroll
-					scroll = 50,
-				},
-			})
-		end,
-	},
-	{
 		"lukas-reineke/indent-blankline.nvim", -- Visual guidelines for identation levels
 		main = "ibl",
 		config = function()
