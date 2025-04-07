@@ -5,10 +5,17 @@ return {
 		config = function()
 			-- Notification GUI top right
 			vim.notify = require("mini.notify").make_notify()
+			-- Advanced motions
+			require("mini.ai").setup()
 			-- Auto-close brackets, quotes, etc.
 			require("mini.pairs").setup()
+			-- Split or join bracketed elements across many or a single line
+			require("mini.splitjoin").setup()
 			-- surround objects with '"({[ etc
 			require("mini.surround").setup()
+			-- square bracket movement additions
+			-- nvim 0.11 has builtin partial coverage
+			require("mini.bracketed").setup()
 			-- Highlight specific strings
 			local hipatterns = require("mini.hipatterns")
 			hipatterns.setup({
