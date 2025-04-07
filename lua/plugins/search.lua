@@ -1,10 +1,11 @@
 return {
 	{
 		"ibhagwan/fzf-lua",
+		lazy = false,
 		-- optional for icon support
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			require("fzf-lua").setup({
+			require("fzf-lua").register_ui_select({
 				-- "hide", -- Keep the fzf menu buffers in background so that we can use .resume()
 			})
 		end,
@@ -129,14 +130,14 @@ return {
 				function()
 					require("fzf-lua").nvim_options()
 				end,
-				desc = "[F]zflua [n]vim [o]ptions",
+				desc = "[F]zflua [n]eovim [o]ptions",
 			},
 			{
 				"<leader>fnc",
 				function()
 					require("fzf-lua").files({ cwd = vim.fn.stdpath("config") })
 				end,
-				desc = "[F]zflua [n]vim [c]onfiguration files",
+				desc = "[F]zflua [n]eovim [c]onfiguration files",
 			},
 		},
 	},
