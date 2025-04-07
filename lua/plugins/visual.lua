@@ -1,6 +1,20 @@
 return {
 	{ "folke/tokyonight.nvim" }, -- Colorscheme
-	{ "rebelot/kanagawa.nvim" }, -- Colorscheme
+	{
+		"rebelot/kanagawa.nvim",
+		config = function()
+			require("kanagawa").setup({
+				compile = true,
+				-- Requires :KanagawaCompile
+				dimInactive = true,
+				terminalColors = true,
+			})
+			vim.cmd.colorscheme("kanagawa")
+		end,
+		build = function()
+			vim.cmd("KanagawaCompile")
+		end,
+	}, -- Colorscheme
 	{ "EdenEast/nightfox.nvim" }, -- Colorscheme
 	{ "navarasu/onedark.nvim" }, -- Colorscheme
 	{ "sainnhe/everforest" }, -- Colorscheme
@@ -17,8 +31,6 @@ return {
 		main = "ibl",
 		config = function()
 			require("ibl").setup()
-			vim.opt.list = true
-			vim.opt.listchars = { space = "·", tab = "→ " }
 		end,
 	},
 	{
