@@ -3,21 +3,6 @@
 -- Shorter <C-\> alias for <C-\><C-n>
 vim.keymap.set("t", "<C-\\>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
-vim.api.nvim_create_autocmd("TermOpen", {
-	desc = "Disable line numbers in terminal buffers",
-	group = vim.api.nvim_create_augroup("term-disable-line-numbers", { clear = true }),
-	callback = function()
-		vim.wo.number = false
-		vim.wo.relativenumber = false
-	end,
-})
-
--- vim.api.nvim_create_autocmd("TermOpen", {
--- 	desc = "Automatically enter insert mode when opening a terminal",
--- 	group = vim.api.nvim_create_augroup("term-open-startinsert", { clear = true }),
--- 	command = "startinsert",
--- })
-
 -- :Te to horizontal split an existing, otherwise a new terminal
 vim.api.nvim_create_user_command("Te", function()
 	local term_bufnr = nil
