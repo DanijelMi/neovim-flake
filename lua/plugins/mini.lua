@@ -92,6 +92,15 @@ return {
 				},
 			})
 			require("mini.visits").setup()
+
+			-- Draw and animate scope based on indent
+			local miniindentscope = require("mini.indentscope")
+			miniindentscope.setup({
+				draw = {
+					delay = 10,
+					animation = miniindentscope.gen_animation.quadratic({ duration = 6 }),
+				},
+			})
 		end,
 	},
 }

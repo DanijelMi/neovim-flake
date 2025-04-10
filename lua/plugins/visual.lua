@@ -27,13 +27,6 @@ return {
 		end,
 	},
 	{
-		"lukas-reineke/indent-blankline.nvim", -- Visual guidelines for identation levels
-		main = "ibl",
-		config = function()
-			require("ibl").setup()
-		end,
-	},
-	{
 		"folke/styler.nvim", -- Colorscheme per filetype
 		config = function()
 			require("styler").setup({
