@@ -49,6 +49,7 @@ return {
 	{
 		"sphamba/smear-cursor.nvim",
 		opts = {
+			smear_to_cmd = false, -- nvim 0.11 regression https://github.com/neovim/neovim/issues/32068
 			stiffness = 0.8,
 			trailing_stiffness = 0.4,
 			distance_stop_animating = 0.1, -- 0.1      > 0
@@ -57,7 +58,12 @@ return {
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
-		opts = {},
+		opts = {
+			win = {
+				no_overlap = false, -- don't allow the popup to overlap with the cursor
+				padding = { 0, 0 }, -- extra window padding [top/bottom, right/left]
+			},
+		},
 		keys = {
 			{
 				"<leader>?",
