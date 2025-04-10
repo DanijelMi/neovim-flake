@@ -53,7 +53,7 @@ return {
 				lualine_b = { "location" },
 			},
 			tabline = {
-				lualine_a = { { "tabs", mode = 2 } },
+				lualine_a = { { "tabs", max_length = vim.o.columns, mode = 2 } },
 			},
 			winbar = {
 				lualine_a = { "filename" },
