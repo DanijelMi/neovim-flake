@@ -4,7 +4,16 @@ return {
 		version = false,
 		config = function()
 			-- Notification GUI top right
-			vim.notify = require("mini.notify").make_notify()
+			local mininotify = require("mini.notify")
+			mininotify.setup()
+			vim.notify = mininotify.make_notify() -- capture native vim notifications
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>n",
+				":lua MiniNotify.show_history()<CR>",
+				{ noremap = true, silent = true, desc = "Open notification history as a buffer" }
+			)
+
 			-- Advanced motions
 			require("mini.ai").setup()
 			-- Auto-close brackets, quotes, etc.
