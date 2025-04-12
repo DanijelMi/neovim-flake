@@ -168,23 +168,33 @@ return {
 	},
 	{
 		"olimorris/codecompanion.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
 		opts = {
 			strategies = {
 				chat = {
-					adapter = "anthropic",
+					adapter = "openai",
 				},
 				inline = {
-					adapter = "anthropic",
+					adapter = "openai",
 				},
 				cmd = {
-					adapter = "deepseek",
+					adapter = "openai",
 				},
 			},
 			adapters = {
-				anthropic = function()
-					return require("codecompanion.adapters").extend("anthropic", {
+				-- adapters will look in your environment for a *_API_KEY
+				openai = function()
+					return require("codecompanion.adapters").extend("openai", {
 						env = {
-							api_key = "MY_OTHER_ANTHROPIC_KEY",
+							api_key = os.getenv("OPENAI_API_KEY"),
+						},
+						schema = {
+							model = {
+								default = "gpt-4",
+							},
 						},
 					})
 				end,
@@ -201,10 +211,6 @@ return {
 					},
 				},
 			},
-		},
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
 		},
 	},
 }
