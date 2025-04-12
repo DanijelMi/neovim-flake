@@ -1,0 +1,9 @@
+{
+	"neovimkeymap": {
+		"prefix": "keymap",
+		"body": [
+			"vim.api.nvim_set_keymap( $1, $2, $3, { noremap = $4, silent = $5, desc = $6 })"
+		]
+	}
+}
+

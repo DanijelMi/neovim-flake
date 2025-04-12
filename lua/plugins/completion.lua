@@ -19,82 +19,104 @@ return {
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
 		config = function()
-			require("blink.cmp").setup({
-				keymap = {
-					["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-					["<C-e>"] = { "hide" },
-					["<C-y>"] = { "select_and_accept" },
-					["<Up>"] = { "select_prev", "fallback" },
-					["<Down>"] = { "select_next", "fallback" },
-					["<C-p>"] = { "select_prev", "fallback_to_mappings" },
-					["<C-n>"] = { "select_next", "fallback_to_mappings" },
-					["<C-b>"] = { "scroll_documentation_up", "fallback" },
-					["<C-f>"] = { "scroll_documentation_down", "fallback" },
-					["<Tab>"] = { "snippet_forward", "fallback" },
-					["<S-Tab>"] = { "snippet_backward", "fallback" },
-					["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
-					-- Select Nth item from the list
-					["<A-1>"] = {
-						function(cmp)
-							cmp.accept({ index = 1 })
-						end,
-					},
-					["<A-2>"] = {
-						function(cmp)
-							cmp.accept({ index = 2 })
-						end,
-					},
-					["<A-3>"] = {
-						function(cmp)
-							cmp.accept({ index = 3 })
-						end,
-					},
-					["<A-4>"] = {
-						function(cmp)
-							cmp.accept({ index = 4 })
-						end,
-					},
-					["<A-5>"] = {
-						function(cmp)
-							cmp.accept({ index = 5 })
-						end,
-					},
-					["<A-6>"] = {
-						function(cmp)
-							cmp.accept({ index = 6 })
-						end,
-					},
-					["<A-7>"] = {
-						function(cmp)
-							cmp.accept({ index = 7 })
-						end,
-					},
-					["<A-8>"] = {
-						function(cmp)
-							cmp.accept({ index = 8 })
-						end,
-					},
-					["<A-9>"] = {
-						function(cmp)
-							cmp.accept({ index = 9 })
-						end,
-					},
-					["<A-0>"] = {
-						function(cmp)
-							cmp.accept({ index = 10 })
-						end,
-					},
+			-- altkeys are separate since they are reused in command mode keymaps
+			local altkeys = {
+				-- Select Nth item from the list
+				["<A-1>"] = {
+					function(cmp)
+						cmp.accept({ index = 1 })
+					end,
 				},
+				["<A-2>"] = {
+					function(cmp)
+						cmp.accept({ index = 2 })
+					end,
+				},
+				["<A-3>"] = {
+					function(cmp)
+						cmp.accept({ index = 3 })
+					end,
+				},
+				["<A-4>"] = {
+					function(cmp)
+						cmp.accept({ index = 4 })
+					end,
+				},
+				["<A-5>"] = {
+					function(cmp)
+						cmp.accept({ index = 5 })
+					end,
+				},
+				["<A-6>"] = {
+					function(cmp)
+						cmp.accept({ index = 6 })
+					end,
+				},
+				["<A-7>"] = {
+					function(cmp)
+						cmp.accept({ index = 7 })
+					end,
+				},
+				["<A-8>"] = {
+					function(cmp)
+						cmp.accept({ index = 8 })
+					end,
+				},
+				["<A-9>"] = {
+					function(cmp)
+						cmp.accept({ index = 9 })
+					end,
+				},
+				["<A-0>"] = {
+					function(cmp)
+						cmp.accept({ index = 10 })
+					end,
+				},
+			}
+			require("blink.cmp").setup({
+				-- wrap in fuction to merge altkeys with normal keymaps
+				appearance = {
+					use_nvim_cmp_as_default = true,
+					nerd_font_variant = "mono",
+				},
+				keymap = (function()
+					local keymap = {
+						-- ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+						["<C-space>"] = {}, -- disable from a preset
+						["<C-e>"] = { "cancel" },
+						["<C-y>"] = { "select_and_accept" },
+						["<Up>"] = { "select_prev", "fallback" },
+						["<Down>"] = { "select_next", "fallback" },
+						["<C-p>"] = { "select_prev", "fallback_to_mappings" },
+						["<C-n>"] = { "show_and_insert", "select_next", "fallback_to_mappings" },
+						["<C-b>"] = { "scroll_documentation_up", "fallback" },
+						["<C-f>"] = { "scroll_documentation_down", "fallback" },
+						["<Tab>"] = { "snippet_forward", "fallback" },
+						["<S-Tab>"] = { "snippet_backward", "fallback" },
+						["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+					}
+					-- Append altkeys into the keymap
+					for k, v in pairs(altkeys) do
+						keymap[k] = v
+					end
+					return keymap
+				end)(),
 				completion = {
 					list = {
 						selection = {
-							preselect = false,
+							preselect = true,
 							auto_insert = true,
 						},
 					},
 					menu = {
 						draw = {
-							columns = { { "item_idx" }, { "kind_icon" }, { "label", "label_description", gap = 1 } },
+							columns = {
+								{ "item_idx" },
+								{ "kind" },
+								{ "kind_icon" },
+								{ "label", "label_description", gap = 1 },
+								{ "source_name" },
+							},
 							components = {
 								item_idx = {
 									text = function(ctx)
@@ -105,12 +127,18 @@ return {
 							},
 						},
 					},
-					documentation = { auto_show = true },
+					documentation = { auto_show = true, auto_show_delay_ms = 0 },
+					ghost_text = { enabled = true },
 				},
+				-- Experimental signature help support
+				signature = { enabled = true, trigger = {
+					enabled = true,
+					show_on_keyword = true,
+				} },
 				fuzzy = {
 					implementation = "prefer_rust_with_warning",
 				},
-				snippets = { preset = "luasnip" },
+				snippets = { preset = "luasnip", score_offset = 30 },
 				-- :checkhealth blink.cmp to see all available sources
 				sources = {
 					default = {
@@ -147,8 +175,49 @@ return {
 						},
 					},
 				},
+				cmdline = {
+					enabled = true,
+					keymap = (function()
+						-- Create the base keymap with a preset key
+						local base_keymap = { preset = "cmdline" }
+						-- Looping through altkeys to append into the keymap
+						for k, v in pairs(altkeys) do
+							base_keymap[k] = v
+						end
+						return base_keymap -- Return the fully constructed keymap
+					end)(),
+					sources = function()
+						local type = vim.fn.getcmdtype()
+						-- Search forward and backward
+						if type == "/" or type == "?" then
+							return { "buffer" }
+						end
+						-- Commands
+						if type == ":" or type == "@" then
+							return { "cmdline" }
+						end
+						return {}
+					end,
+					completion = {
+						list = {
+							selection = { preselect = true, auto_insert = true },
+						},
+						menu = {
+							auto_show = true,
+							draw = {
+								columns = {
+									{ "item_idx" },
+									{ "kind_icon" },
+									{ "label", "label_description", gap = 1 },
+								},
+							},
+						},
+						ghost_text = { enabled = true },
+					},
+				},
 			})
-			require("luasnip.loaders.from_vscode").lazy_load()
+			require("luasnip.loaders.from_vscode").lazy_load() -- Loads friendly-snippets
+			require("luasnip.loaders.from_vscode").load({ paths = "./snippets/" }) -- dir relative to $MYVIMRC
 			-- Terraform works on "terraform" filetype only, extend it to "tf" filetype as well
 			require("luasnip").filetype_extend("tf", { "terraform" })
 		end,

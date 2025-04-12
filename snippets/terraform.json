@@ -1,0 +1,8 @@
+{
+	"snip3": {
+		"prefix": "resources",
+		"body": [
+			"coc_testinghall $1"
+		]
+	}
+}

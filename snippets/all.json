@@ -1,0 +1,6 @@
+{
+  "exampleallsnippet": {
+    "prefix": "all2",
+    "body": ["multi $1", "line $2", "snippet$0"]
+  }
+}
