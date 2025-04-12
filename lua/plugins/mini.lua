@@ -30,13 +30,17 @@ return {
 
 			-- Auto-close brackets, quotes, etc.
 			require("mini.pairs").setup()
+
 			-- Split or join bracketed elements across many or a single line
 			require("mini.splitjoin").setup()
+
 			-- surround objects with '"({[ etc
 			require("mini.surround").setup()
+
 			-- square bracket movement additions
 			-- nvim 0.11 has builtin partial coverage
 			require("mini.bracketed").setup()
+
 			-- Highlight specific strings
 			local hipatterns = require("mini.hipatterns")
 			hipatterns.setup({
@@ -49,44 +53,38 @@ return {
 					hex_color = hipatterns.gen_highlighter.hex_color(),
 				},
 			})
+
+			-- Which-key alternative
 			local miniclue = require("mini.clue")
 			miniclue.setup({
 				triggers = {
 					-- Leader triggers
 					{ mode = "n", keys = "<Leader>" },
 					{ mode = "x", keys = "<Leader>" },
-
 					-- Brackets
 					{ mode = "n", keys = "]" },
 					{ mode = "n", keys = "[" },
-
 					-- Built-in completion
 					{ mode = "i", keys = "<C-x>" },
-
 					-- `g` key
 					{ mode = "n", keys = "g" },
 					{ mode = "x", keys = "g" },
-
 					-- Marks
 					{ mode = "n", keys = "'" },
 					{ mode = "n", keys = "`" },
 					{ mode = "x", keys = "'" },
 					{ mode = "x", keys = "`" },
-
 					-- Registers
 					{ mode = "n", keys = '"' },
 					{ mode = "x", keys = '"' },
 					{ mode = "i", keys = "<C-r>" },
 					{ mode = "c", keys = "<C-r>" },
-
 					-- Window commands
 					{ mode = "n", keys = "<C-w>" },
-
 					-- `z` key
 					{ mode = "n", keys = "z" },
 					{ mode = "x", keys = "z" },
 				},
-
 				clues = {
 					miniclue.gen_clues.builtin_completion(),
 					miniclue.gen_clues.g(),
@@ -112,9 +110,12 @@ return {
 					delay = 600,
 				},
 			})
+
+			-- TODO testing
 			require("mini.visits").setup()
 
 			-- Draw and animate scope based on indent
+			-- Alternative https://github.com/lukas-reineke/indent-blankline.nvim
 			local miniindentscope = require("mini.indentscope")
 			miniindentscope.setup({
 				draw = {
@@ -122,6 +123,7 @@ return {
 					animation = miniindentscope.gen_animation.quadratic({ duration = 6 }),
 				},
 			})
+
 		end,
 	},
 }

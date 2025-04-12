@@ -1,4 +1,5 @@
 -- Stripped down config from here https://github.com/kevinhwang91/nvim-ufo/issues/4
+-- Also check out https://github.com/luukvbaal/statuscol.nvim
 return {
 	"kevinhwang91/nvim-ufo",
 	dependencies = "kevinhwang91/promise-async",
