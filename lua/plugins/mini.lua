@@ -15,7 +15,19 @@ return {
 			)
 
 			-- Advanced motions
-			require("mini.ai").setup()
+			local miniai = require("mini.ai")
+			local spec_treesitter = miniai.gen_spec.treesitter
+			miniai.setup({
+				-- Treesitter-textobject integration (if available)
+				custom_textobjects = {
+					F = spec_treesitter({ a = "@function.outer", i = "@function.inner" }),
+					o = spec_treesitter({
+						a = { "@conditional.outer", "@loop.outer" },
+						i = { "@conditional.inner", "@loop.inner" },
+					}),
+				},
+			})
+
 			-- Auto-close brackets, quotes, etc.
 			require("mini.pairs").setup()
 			-- Split or join bracketed elements across many or a single line
