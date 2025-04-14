@@ -9,7 +9,6 @@ return {
 				dimInactive = true,
 				terminalColors = true,
 			})
-			vim.cmd.colorscheme("kanagawa")
 		end,
 		build = function()
 			vim.cmd("KanagawaCompile")
@@ -23,7 +22,29 @@ return {
 		"catppuccin/nvim", -- Colorscheme
 		name = "catppuccin",
 		config = function()
-			require("catppuccin").setup({ transparent_background = true })
+			require("catppuccin").setup({
+				transparent_background = false,
+				term_colors = true,
+				color_overrides = {
+					latte = {},
+					-- Customizing for terraform
+					frappe = {
+						base = "#2c1734",
+					},
+					macchiato = {
+						base = "#1a1837",
+					},
+					mocha = {},
+				},
+				styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+					booleans = { "bold" },
+					properties = {},
+					types = {},
+					operators = {},
+					-- miscs = {}, -- Uncomment to turn off hard-coded styles
+				},
+			})
+			vim.cmd.colorscheme("catppuccin")
 		end,
 	},
 	{
