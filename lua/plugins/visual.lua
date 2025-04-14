@@ -52,16 +52,18 @@ return {
 		config = function()
 			require("styler").setup({
 				themes = {
-					markdown = { colorscheme = "torte" },
-					help = { colorscheme = "tokyonight", background = "dark" },
-					terraform = { colorscheme = "catppuccin-mocha", background = "dark" }, -- TODO: find a purple colorscheme here
-					terminal = { colorscheme = "tokyonight-night", background = "dark", transparent_background = false },
+					help = { colorscheme = "tokyonight-storm", background = "dark" },
+					markdown = { colorscheme = "dayfox", background = "dark" },
+					terraform = { colorscheme = "catppuccin-frappe", background = "dark" },
 				},
-				-- Usually terminal buffers have no filetype set, so we set it up for Styler to work
-				vim.api.nvim_create_autocmd({ "TermOpen" }, {
+				-- :terminal does not have filetype, just buffertype
+				-- We can't use filetype-based settings and have to create a manual exception
+				vim.api.nvim_create_autocmd({ "TermEnter" }, {
 					pattern = "*",
 					callback = function()
-						vim.bo.filetype = "terminal"
+						require("styler").set_theme(0, {
+							colorscheme = "kanagawa-dragon",
+						})
 					end,
 				}),
 			})
