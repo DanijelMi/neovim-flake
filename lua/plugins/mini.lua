@@ -123,6 +123,7 @@ return {
 					animation = miniindentscope.gen_animation.quadratic({ duration = 6 }),
 				},
 			})
+			vim.opt.listchars = { space = "·", tab = "→ " }
 
 		end,
 	},

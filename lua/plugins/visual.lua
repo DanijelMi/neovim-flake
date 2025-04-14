@@ -74,4 +74,16 @@ return {
 			},
 		},
 	},
+	-- {
+	-- 	"lukas-reineke/indent-blankline.nvim",
+	-- 	main = "ibl",
+	-- 	---@module "ibl"
+	-- 	---@type ibl.config
+	-- 	-- opts = {},
+	-- 	opts = {},
+	-- 	-- config = function()
+	-- 	-- 	require("ibl").setup()
+	-- 	-- 	-- vim.opt.listchars = { space = "·", tab = "→ " }
+	-- 	-- end,
+	-- },
 }

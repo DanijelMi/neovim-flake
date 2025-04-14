@@ -32,7 +32,6 @@ vim.opt.laststatus = 2 -- Always show status line
 vim.opt.background = "dark" -- Dark or light mode
 vim.opt.ruler = true -- Show line and col numbers in status
 vim.opt.list = true
-vim.opt.listchars = { space = "·", tab = "→ " }
 
 -- TAB AND SHIFT OPTIONS
 vim.opt.shiftround = true -- Round indent to multiple of shiftwidth
