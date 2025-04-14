@@ -28,15 +28,21 @@ return {
 	end,
 	config = function(_, opts)
 		require("ufo").setup()
-		vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-		vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
-		vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
-		vim.keymap.set("n", "K", function()
+		-- Preview folds
+		local function peekOrHover()
 			local winid = require("ufo").peekFoldedLinesUnderCursor()
-			if not winid then
-				-- vim.lsp.buf.hover()
-				vim.cmd([[ Lspsaga hover_doc ]])
+			if winid then
+				local bufnr = vim.api.nvim_win_get_buf(winid)
+				local keys = { "a", "i", "o", "A", "I", "O", "gd", "gr" }
+				for _, k in ipairs(keys) do
+					-- Add a prefix key to fire `trace` action,
+					-- if Neovim is 0.8.0 before, remap yourself
+					vim.keymap.set("n", k, "<CR>" .. k, { noremap = false, buffer = bufnr })
+				end
+			else
+				vim.lsp.buf.hover() -- fallback default functionality on K
 			end
-		end)
+		end
+		vim.keymap.set("n", "K", peekOrHover, { noremap = true, silent = true })
 	end,
 }
