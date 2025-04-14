@@ -125,6 +125,8 @@ return {
 			})
 			vim.opt.listchars = { space = "·", tab = "→ " }
 
+			-- Icon set
+			require("mini.icons").setup()
 		end,
 	},
 }
