@@ -218,8 +218,6 @@ return {
 			})
 			require("luasnip.loaders.from_vscode").lazy_load() -- Loads friendly-snippets
 			require("luasnip.loaders.from_vscode").load({ paths = "./snippets/" }) -- dir relative to $MYVIMRC
-			-- Terraform works on "terraform" filetype only, extend it to "tf" filetype as well
-			require("luasnip").filetype_extend("tf", { "terraform" })
 		end,
 	},
 }
