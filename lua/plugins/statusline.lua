@@ -43,6 +43,11 @@ return {
 							return (arglist_str == "[]") and "[No Arglist]" or arglist_str
 						end,
 					},
+					{
+						function()
+							return "[Y]" .. require("yaml_nvim").get_yaml_key()
+						end,
+					},
 				},
 				lualine_x = { "encoding", "fileformat", "filetype" },
 				lualine_y = { "progress" },

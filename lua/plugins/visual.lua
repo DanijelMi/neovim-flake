@@ -109,4 +109,29 @@ return {
 	-- 	-- 	-- vim.opt.listchars = { space = "·", tab = "→ " }
 	-- 	-- end,
 	-- },
+	{
+		"cuducos/yaml.nvim",
+		ft = { "yaml" }, -- optional
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			-- "folke/snacks.nvim", -- optional
+			-- "nvim-telescope/telescope.nvim", -- optional
+			-- "ibhagwan/fzf-lua", -- optional
+		},
+		config = function()
+			-- Create a bind for yanking the full key path + value
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "yaml",
+				callback = function()
+					vim.api.nvim_buf_set_keymap(
+						0,
+						"n",
+						"Y",
+						[[:lua require('yaml_nvim').yank('+')<CR><cmd>lua vim.notify("Yanked " .. vim.fn.getreg('+'))<CR>]],
+						{ noremap = true }
+					)
+				end,
+			})
+		end,
+	},
 }
