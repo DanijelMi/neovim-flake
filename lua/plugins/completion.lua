@@ -141,7 +141,7 @@ return {
 				fuzzy = {
 					implementation = "prefer_rust_with_warning",
 				},
-				snippets = { preset = "luasnip", score_offset = 30 },
+				snippets = { preset = "luasnip", score_offset = 20 },
 				-- :checkhealth blink.cmp to see all available sources
 				sources = {
 					default = {
@@ -181,6 +181,9 @@ return {
 							module = "lazydev.integrations.blink",
 							-- make lazydev completions top priority (see `:h blink.cmp`)
 							score_offset = 100,
+						},
+						path = {
+							score_offset = 60,
 						},
 						dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
 						dictionary = {
