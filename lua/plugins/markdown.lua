@@ -2,13 +2,29 @@ return {
 	-- Render markdown inside the editor
 	{
 		"MeanderingProgrammer/markdown.nvim",
-		enabled = true,
-		main = "render-markdown",
-		opts = { sign = { enabled = false } },
-		name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {
+			completions = {
+				lsp = { enabled = true },
+				blink = { enabled = true },
+			},
+		},
 		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
 	},
-
+	-- Preview Markodwn in Browser
+	{
+		"toppair/peek.nvim",
+		event = { "VeryLazy" },
+		build = "deno task --quiet build:fast",
+		config = function()
+			require("peek").setup({
+				app = "browser", -- 'webview', 'browser', string or a table of strings
+			})
+			vim.api.nvim_create_user_command("MarkdownPreviewOpen", require("peek").open, {})
+			vim.api.nvim_create_user_command("MarkdownPreviewClose", require("peek").close, {})
+		end,
+	},
 	-- Render images inside the editor
 	{
 		"3rd/image.nvim",
