@@ -97,18 +97,6 @@ return {
 			},
 		},
 	},
-	-- {
-	-- 	"lukas-reineke/indent-blankline.nvim",
-	-- 	main = "ibl",
-	-- 	---@module "ibl"
-	-- 	---@type ibl.config
-	-- 	-- opts = {},
-	-- 	opts = {},
-	-- 	-- config = function()
-	-- 	-- 	require("ibl").setup()
-	-- 	-- 	-- vim.opt.listchars = { space = "·", tab = "→ " }
-	-- 	-- end,
-	-- },
 	{
 		"cuducos/yaml.nvim",
 		ft = { "yaml" }, -- optional
@@ -131,6 +119,30 @@ return {
 						{ noremap = true }
 					)
 				end,
+			})
+		end,
+	},
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		---@module "ibl"
+		---@type ibl.config
+		-- opts = {},
+		config = function()
+			vim.opt.listchars = { space = "·", tab = "→ " }
+			require("ibl").setup({
+				indent = {
+					char = "│",
+					tab_char = { "│" },
+					highlight = { "IblIndent" },
+				},
+				scope = {
+					show_start = true,
+					show_end = true,
+					char = { "│" },
+					show_exact_scope = true,
+					highlight = { "IblScope" },
+				},
 			})
 		end,
 	},

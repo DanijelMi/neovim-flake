@@ -114,17 +114,6 @@ return {
 			-- TODO testing
 			require("mini.visits").setup()
 
-			-- Draw and animate scope based on indent
-			-- Alternative https://github.com/lukas-reineke/indent-blankline.nvim
-			local miniindentscope = require("mini.indentscope")
-			miniindentscope.setup({
-				draw = {
-					delay = 10,
-					animation = miniindentscope.gen_animation.quadratic({ duration = 6 }),
-				},
-			})
-			vim.opt.listchars = { space = "·", tab = "→ " }
-
 			-- Icon set
 			require("mini.icons").setup()
 		end,
