@@ -11,7 +11,7 @@ vim.opt.undolevels = 1000 -- Stored history of changes that can be undone
 vim.opt.complete = ".,w,b,u,t" -- What files/buffers to scan for auto-complete
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- SEARCH OPTIONS
 vim.opt.ignorecase = true -- Case insensitive / searches
