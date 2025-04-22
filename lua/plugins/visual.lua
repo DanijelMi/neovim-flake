@@ -71,6 +71,9 @@ return {
 	},
 	{
 		"sphamba/smear-cursor.nvim",
+		cond = function()
+			return not vim.g.neovide -- Only when not in Neovide
+		end,
 		opts = {
 			smear_to_cmd = false, -- nvim 0.11 regression https://github.com/neovim/neovim/issues/32068
 			stiffness = 0.8,
