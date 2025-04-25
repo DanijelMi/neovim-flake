@@ -8,7 +8,7 @@ require("config.lazy") -- Load plugin manager and all plugins
 -- Staging zone temporary logic goes here
 
 -- How to troubleshoot highlights:
--- :FzfLua highlights
+-- Open highlights in your preferred picker
 -- :Inspect!
 
 -- Filetype recognition overrides
