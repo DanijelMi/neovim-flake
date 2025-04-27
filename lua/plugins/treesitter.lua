@@ -3,24 +3,8 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		opts = {
-			ensure_installed = {
-				"bash",
-				"c",
-				"diff",
-				"html",
-				"lua",
-				"luadoc",
-				"markdown",
-				"markdown_inline",
-				"query",
-				"vim",
-				"vimdoc",
-				"nix",
-				"hcl",
-				"terraform",
-				"regex",
-				"sql",
-			},
+			-- :TSInstallInfo
+			ensure_installed = { all },
 			-- Install parsers synchronously (only applied to `ensure_installed`)
 			sync_install = false,
 			-- Autoinstall languages that are not installed
