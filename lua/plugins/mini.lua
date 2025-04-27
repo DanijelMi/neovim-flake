@@ -94,7 +94,7 @@ return {
 					miniclue.gen_clues.z(),
 					-- Enhance this by adding descriptions for <Leader> mapping groups
 					{ mode = "n", keys = "<Leader>a", desc = "+Arglist" },
-					{ mode = "n", keys = "<Leader>f", desc = "+FzfLua" },
+					{ mode = "n", keys = "<Leader>f", desc = "+Picker" },
 					{ mode = "n", keys = "<Leader>fn", desc = "+Neovim" },
 					{ mode = "n", keys = "<Leader>s", desc = "+Session" },
 					{ mode = "n", keys = "<Leader>t", desc = "+Terminal" },

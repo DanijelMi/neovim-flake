@@ -162,26 +162,20 @@ return {
 		},
 	},
 	{
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v3.x",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-			"MunifTanjim/nui.nvim",
-			-- "3rd/image.nvim",           -- Optional image support in preview window: See `# Preview Mode` for more information
-		},
+		"folke/snacks.nvim",
 		opts = {
-			close_if_last_window = true,
-			filesystem = {
-				hijack_netrw_behavior = "disabled",
-				follow_current_file = {
-					enabled = true,
-				},
+			explorer = {
+				replace_netrw = false,
 			},
 		},
-		lazy = false,
 		keys = {
-			{ "<leader>N", "<CMD>Neotree filesystem toggle<CR>", mode = "n", desc = "Toggle Neotree view" },
+			{
+				"<leader>e",
+				function()
+					Snacks.explorer()
+				end,
+				desc = "File Explorer",
+			},
 		},
 	},
 }
