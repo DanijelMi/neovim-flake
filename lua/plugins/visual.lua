@@ -105,9 +105,7 @@ return {
 		ft = { "yaml" }, -- optional
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
-			-- "folke/snacks.nvim", -- optional
-			-- "nvim-telescope/telescope.nvim", -- optional
-			-- "ibhagwan/fzf-lua", -- optional
+			"folke/snacks.nvim", -- optional
 		},
 		config = function()
 			-- Create a bind for yanking the full key path + value

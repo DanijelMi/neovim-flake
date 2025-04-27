@@ -1,8 +1,22 @@
 return {
+	-- Snacks.picker
 	{
 		"folke/snacks.nvim",
 		opts = {
-			picker = {},
+			picker = {
+				sources = {
+					-- Custom source for directory browsing
+					dirs = {
+						finder = "proc",
+						cmd = "fd",
+						args = { "--type", "d" },
+						transform = function(item)
+							item.file = item.text
+							item.dir = true
+						end,
+					},
+				},
+			},
 		},
 		keys = {
 			{
@@ -78,6 +92,44 @@ return {
 				desc = "Projects",
 			},
 			{
+				"<leader>fd",
+				function()
+					Snacks.picker.dirs({
+						cwd = vim.fs.normalize("~"),
+						cmd = "fd",
+						args = { ".", "--type", "directory" },
+						title = "Directory Search",
+						win = {
+							preview = {
+								wo = { number = false },
+								title = "{preview}",
+								title_pos = "left",
+							},
+						},
+					})
+				end,
+				desc = "Search Directories",
+			},
+			{
+				"<leader>fR",
+				function()
+					Snacks.picker.dirs({
+						cwd = vim.fs.normalize("~"),
+						cmd = "fd",
+						args = { "--hidden", "--type", "directory", ".git$", "--exec", "dirname", "{}" },
+						title = "Local Git Repositories",
+						win = {
+							preview = {
+								wo = { number = false },
+								title = "{preview}",
+								title_pos = "left",
+							},
+						},
+					})
+				end,
+				desc = "Search Local Repositories",
+			},
+			{
 				"<leader>fr",
 				function()
 					Snacks.picker.recent()
@@ -92,7 +144,7 @@ return {
 				desc = "Marks",
 			},
 			{
-				"<leader>fR",
+				"<leader>f`",
 				function()
 					Snacks.picker.resume()
 				end,
@@ -256,7 +308,7 @@ return {
 				desc = "Marks",
 			},
 			{
-				"<leader>fp",
+				"<leader>fP",
 				function()
 					Snacks.picker.lazy()
 				end,
