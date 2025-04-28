@@ -61,10 +61,20 @@ return {
 				lualine_a = { { "tabs", max_length = vim.o.columns, mode = 2 } },
 			},
 			winbar = {
-				lualine_a = { "filename" },
+				lualine_a = {
+					{ "filename", file_status = true, newfile_status = true, path = 1 },
+				},
+				lualine_b = {
+					{ "filetype", colored = true, icon_only = true, icon = { align = "left" } },
+				},
 			},
 			inactive_winbar = {
-				lualine_a = { "filename" },
+				lualine_a = {
+					{ "filename", file_status = true, newfile_status = true, path = 1 },
+				},
+				lualine_b = {
+					{ "filetype", colored = true, icon_only = true, icon = { align = "left" } },
+				},
 			},
 			extensions = {},
 		})
