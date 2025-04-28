@@ -388,4 +388,30 @@ return {
 			-- },
 		},
 	},
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		---@diagnostic disable-next-line: missing-fields
+		opts = {
+			modes = {
+				enabled = true, -- Enable flash / search by default
+			},
+			char = {
+				jump_labels = true,
+				multi_line = false,
+			},
+		},
+		-- stylua: ignore
+		keys = {
+			{
+				"<leader>J",
+				mode = { "n" },
+				function()
+					vim.notify("Flash Search toggled " .. tostring(require("flash").toggle()))
+				end,
+				desc = "Toggle Flash Search"
+			},
+		},
+	},
 }
