@@ -39,7 +39,9 @@ return {
 
 			-- square bracket movement additions
 			-- nvim 0.11 has builtin partial coverage
-			require("mini.bracketed").setup()
+			require("mini.bracketed").setup({
+				comment = { suffix = "", options = {} }, -- Disable [c motions since native jumpto-diffs use it
+			})
 
 			-- Highlight specific strings
 			local hipatterns = require("mini.hipatterns")
