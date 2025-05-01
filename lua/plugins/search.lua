@@ -78,7 +78,7 @@ return {
 			-- },
 			-- find
 			{
-				"<leader>fc",
+				"<leader>fC",
 				function()
 					Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
 				end,
@@ -109,6 +109,75 @@ return {
 					})
 				end,
 				desc = "Search Directories",
+			},
+			{
+				"<leader>fcc",
+				function()
+					Snacks.picker.colorschemes({
+						layout = { preset = "right", preview = "minimal" },
+					})
+				end,
+				desc = "All colorschemes",
+			},
+			{
+				"<leader>fcl",
+				function()
+					Snacks.picker.colorschemes({
+						layout = { preset = "right", preview = "minimal" },
+						transform = function(item)
+							local favorite_themes = {
+								"catppuccin-latte",
+								"rose-dawn",
+								"everforest",
+								"kanagawa-lotus",
+								"dayfox",
+								"dawnfox",
+								"tokyonight-day",
+							}
+							for _, theme in ipairs(favorite_themes) do
+								if item.text == theme then
+									return item
+								end
+							end
+							return false
+						end,
+					})
+				end,
+				desc = "Favorite dark colorschemes",
+			},
+			{
+				"<leader>fcd",
+				function()
+					Snacks.picker.colorschemes({
+						layout = { preset = "right", preview = "minimal" },
+						transform = function(item)
+							local favorite_themes = {
+								"catppuccin-mocha",
+								"catppuccin-frappe",
+								"catppuccin-macchiato",
+								"rose-pine-main",
+								"rose-pine-moon",
+								"kanagawa-wave",
+								"kanagawa-dragon",
+								"duskfox",
+								"nordfox",
+								"terafox",
+								"nightfox",
+								"carbonfox",
+								"tokyonight-moon",
+								"tokyonight-night",
+								"tokyonight-storm",
+							}
+							for _, theme in ipairs(favorite_themes) do
+								if item.text == theme then
+									return item
+								end
+							end
+							return false
+						end,
+					})
+				end,
+				desc = "Favorite light colorschemes",
 			},
 			{
 				"<leader>fR",
@@ -327,13 +396,6 @@ return {
 					Snacks.picker.undo()
 				end,
 				desc = "Undo History",
-			},
-			{
-				"<leader>fC",
-				function()
-					Snacks.picker.colorschemes()
-				end,
-				desc = "Colorschemes",
 			},
 			-- LSP
 			-- {
