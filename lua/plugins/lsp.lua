@@ -36,7 +36,7 @@ return {
 			-- Lua
 			lspconfig["lua_ls"].setup({
 				capabilities = capabilities,
-				settings = { Lua = { runtime = { version = "LuaJIT" } } },
+				settings = { Lua = { runtime = { version = "LuaJIT" }, hint = { enable = true } } },
 			})
 			-- Nix
 			lspconfig["nixd"].setup({ capabilities = capabilities })
@@ -47,12 +47,17 @@ return {
 			lspconfig["tflint"].setup({ capabilities = capabilities })
 			-- Bash
 			lspconfig["bashls"].setup({ capabilities = capabilities })
+			-- Grammar
+			lspconfig["harper_ls"].setup({
+				capabilities = capabilities,
+				filetypes = { "markdown", "gitcommit", "text" },
+			})
+			-- PostgreSQL
+			lspconfig["postgres_lsp"].setup({ capabilities = capabilities })
 
 			-- vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "LSP: Show diagnostic" })
 			-- vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "LSP: setloclist" })
 			-- vim.keymap.set("n", "<space>k", vim.lsp.buf.hover, { desc = "LSP: hover" })
-			-- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: Code Action" })
-			-- vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, { desc = "LSP: Rename" })
 		end,
 	},
 }
