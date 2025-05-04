@@ -53,7 +53,7 @@ return {
 			require("styler").setup({
 				themes = {
 					help = { colorscheme = "tokyonight-storm", background = "dark" },
-					markdown = { colorscheme = "dayfox", background = "dark" },
+					markdown = { colorscheme = "catppuccin-latte", background = "light" },
 					terraform = { colorscheme = "catppuccin-frappe", background = "dark" },
 				},
 				-- :terminal does not have filetype, just buffertype
