@@ -46,4 +46,17 @@ return {
 			})
 		end,
 	},
+	{
+		"ovk/endec.nvim",
+		event = "VeryLazy",
+		opts = {
+			keymaps = {
+				defaults = false, -- disable all default binds
+				encode_base64_inplace = "gbe",
+				vencode_base64_inplace = "gbe",
+				decode_base64_inplace = "gbd",
+				vdecode_base64_inplace = "gbd",
+			},
+		},
+	},
 }
