@@ -1,8 +1,5 @@
 -- Calls dedicated formatter tools if they exist, otherwise resort to LSP formatting if exists
 return {
-	-- 			sources = {
-	-- 				-- null_ls.builtins.diagnostics.shellcheck,
-	-- 			},
 	{
 		"stevearc/conform.nvim",
 		lazy = false,
@@ -30,11 +27,9 @@ return {
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()" -- register for gq movement
 			require("conform").setup({
 				formatters_by_ft = {
-					lua = { "stylua" },
-					nix = { "nixfmt" },
-					terraform = { "terraform_fmt" },
-					markdown = { "prettier" },
-					bash = { "shfmt", "shellharden" },
+					-- lua = { "stylua" },
+					-- nix = { "nixfmt" },
+					-- markdown = { "prettier" },
 				},
 				default_format_opts = {
 					lsp_format = "fallback",
