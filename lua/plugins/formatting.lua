@@ -8,11 +8,19 @@ return {
 		lazy = false,
 		keys = {
 			{
-				"<leader>gf",
+				"grf",
 				function()
-					-- vim.lsp.buf.format asks LSP for formatting capabilities, we don't want to ask LSP first.
+					-- vim.lsp.buf.format() asks LSP for formatting capabilities, we don't want to ask LSP first.
 					-- We want a wrapper in front from Conform that can resort to vim.lsp.buf.format() as fallback
-					require("conform").format({ lsp_format = "fallback" })
+					require("conform").format({ async = true }, function(err, did_edit)
+						if did_edit then
+							vim.notify("Code formatted successfully.")
+						elseif not err then
+							vim.notify("No changes made during code format.")
+						elseif err then
+							vim.notify("Running code format: " .. err)
+						end
+					end)
 				end,
 				desc = "Conform: Format code",
 			},
