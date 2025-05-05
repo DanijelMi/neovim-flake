@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field, undefined-global
 return {
 	-- Snacks.picker
 	{
@@ -143,7 +144,7 @@ return {
 						end,
 					})
 				end,
-				desc = "Favorite dark colorschemes",
+				desc = "Favorite light colorschemes",
 			},
 			{
 				"<leader>fcd",
@@ -177,7 +178,7 @@ return {
 						end,
 					})
 				end,
-				desc = "Favorite light colorschemes",
+				desc = "Favorite dark colorschemes",
 			},
 			{
 				"<leader>fR",
