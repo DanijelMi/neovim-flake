@@ -42,13 +42,6 @@ return {
 				end,
 				desc = "Grep",
 			},
-			-- {
-			-- 	"<leader>fG",
-			-- 	function()
-			-- 		Snacks.picker.grep_buffers()
-			-- 	end,
-			-- 	desc = "Grep Open Buffers",
-			-- },
 			{
 				"<leader>fb",
 				function()
@@ -70,27 +63,12 @@ return {
 				end,
 				desc = "Command History",
 			},
-			-- {
-			-- 	"<leader>n",
-			-- 	function()
-			-- 		Snacks.picker.notifications()
-			-- 	end,
-			-- 	desc = "Notification History",
-			-- },
-			-- find
 			{
 				"<leader>fC",
 				function()
 					Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
 				end,
 				desc = "Find Config File",
-			},
-			{
-				"<leader>fp",
-				function()
-					Snacks.picker.projects()
-				end,
-				desc = "Projects",
 			},
 			{
 				"<leader>fd",
@@ -363,13 +341,6 @@ return {
 				end,
 				desc = "Keymaps",
 			},
-			-- {
-			-- 	"<leader>sl",
-			-- 	function()
-			-- 		Snacks.picker.loclist()
-			-- 	end,
-			-- 	desc = "Location List",
-			-- },
 			{
 				"<leader>fm",
 				function()

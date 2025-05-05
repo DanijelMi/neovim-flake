@@ -121,9 +121,14 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim", -- required
 			"sindrets/diffview.nvim", -- optional
+			"folke/snacks.nvim",   -- optional
 		},
 		opts = {
 			graph_style = "kitty", -- If nerd font present
+			integrations = {
+				snacks = true,
+				diffview = true,
+			}
 		},
 		keys = {
 			{ "<leader>G", "<Cmd>Neogit<CR>", desc = "Open Neogit" },

@@ -1,6 +1,7 @@
 return {
 	{
 		"echasnovski/mini.files",
+		-- "echasnovski/mini.nvim",
 		version = false,
 		lazy = false,
 		config = function()
@@ -63,6 +64,10 @@ return {
 			-- Open file with external program
 			local external_open = function()
 				local fs_entry = MiniFiles.get_fs_entry()
+				if fs_entry == nil then
+					vim.notify("No file selected to open externally.", vim.log.levels.ERROR)
+					return
+				end
 				vim.notify("Opening: " .. fs_entry.path .. " externally.")
 				vim.ui.open(fs_entry.path)
 			end

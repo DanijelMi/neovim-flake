@@ -50,7 +50,7 @@ return {
 			-- Grammar
 			lspconfig["harper_ls"].setup({
 				capabilities = capabilities,
-				filetypes = { "markdown", "gitcommit", "text" },
+				filetypes = { "markdown", "text" },
 			})
 			-- PostgreSQL
 			lspconfig["postgres_lsp"].setup({ capabilities = capabilities })
