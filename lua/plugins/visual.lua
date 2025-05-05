@@ -13,13 +13,13 @@ return {
 		build = function()
 			vim.cmd("KanagawaCompile")
 		end,
-	}, -- Colorscheme
-	{ "EdenEast/nightfox.nvim" }, -- Colorscheme
-	{ "navarasu/onedark.nvim" }, -- Colorscheme
-	{ "sainnhe/everforest" }, -- Colorscheme
-	{ "rose-pine/neovim", name = "rose-pine" }, -- Colorscheme
+	},                                              -- Colorscheme
+	{ "EdenEast/nightfox.nvim" },                   -- Colorscheme
+	{ "navarasu/onedark.nvim" },                    -- Colorscheme
+	{ "sainnhe/everforest" },                       -- Colorscheme
+	{ "rose-pine/neovim",      name = "rose-pine" }, -- Colorscheme
 	{
-		"catppuccin/nvim", -- Colorscheme
+		"catppuccin/nvim",                            -- Colorscheme
 		name = "catppuccin",
 		config = function()
 			require("catppuccin").setup({
@@ -49,12 +49,13 @@ return {
 	},
 	{
 		"folke/styler.nvim", -- Colorscheme per filetype
+		enabled = true,
 		config = function()
 			require("styler").setup({
 				themes = {
-					help = { colorscheme = "tokyonight-storm", background = "dark" },
-					markdown = { colorscheme = "catppuccin-latte", background = "light" },
-					terraform = { colorscheme = "catppuccin-frappe", background = "dark" },
+					-- help = { colorscheme = "tokyonight-storm", background = "dark" },
+					-- markdown = { colorscheme = "catppuccin-latte", background = "light" },
+					-- terraform = { colorscheme = "catppuccin-frappe", background = "dark" },
 					terminal = { colorscheme = "tokyonight-night", background = "dark", transparent_background = false },
 				},
 				-- Styler detects filetypes, not buffertypes. :term has only buftype and no filetype, so we fix that
