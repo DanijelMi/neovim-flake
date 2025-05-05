@@ -80,4 +80,20 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highl
 -- Sudo write for non root files
 vim.keymap.set("c", "w!!", "w !sudo tee % > /dev/null", { noremap = true, silent = true, desc = "Sudo write file" })
 
+-- Yank current line, comment it, then paste below
+vim.keymap.set('n', 'gy', function()
+	vim.cmd('t.')
+	vim.cmd('normal! k')
+	vim.cmd('normal gcc')
+	vim.cmd('normal! j')
+end, { noremap = true, silent = true, desc = "Comment & duplicate line" })
+
+-- Close entire neovim tab
+vim.keymap.set("n", "<C-w>Q", ":tabclose<CR>", { desc = "Close current tab" })
+
+-- Calculate simple math, visual only
+vim.api.nvim_set_keymap("v", "g=", [[c<C-r>=<C-r>"<CR><Esc>]],
+	{ noremap = true, silent = true, desc = "Calculate visual selection" }
+)
+
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" }) -- Diagnostic keymaps TODO
