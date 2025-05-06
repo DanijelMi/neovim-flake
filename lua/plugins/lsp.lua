@@ -44,6 +44,10 @@ return {
 			)
 
 			local lspconfig = require("lspconfig")
+			-- - LSP servers and clients are able to communicate to each other what features they support.
+			--  By default, Neovim doesn't support everything that is in the LSP specification.
+			--  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
+			--  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 			-- Lua
@@ -65,12 +69,42 @@ return {
 				capabilities = capabilities,
 				filetypes = { "markdown", "text" },
 			})
+			-- JSON
+			lspconfig["jsonls"].setup({
+				capabilities = capabilities,
+				schemas = require("schemastore").json.schemas(),
+				validate = { enable = true },
+			})
+			-- YAML
+			lspconfig.yamlls.setup({
+				require("schema-companion").setup_client({ -- Wrap
+					capabilities = capabilities,
+					settings = {
+						yaml = {
+							schemaStore = {
+								-- Disable built-in schemaStore fetching, we aree reliyng on schemastore plugin
+								enable = false,
+								-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+								url = "",
+							},
+							schemas = require("schemastore").yaml.schemas(),
+						},
+					},
+				}),
+			})
+			-- Gitlab (depends on yamlls + gitlab schema)
+			lspconfig["gitlab_ci_ls"].setup({ capabilities = capabilities })
 			-- PostgreSQL
 			lspconfig["postgres_lsp"].setup({ capabilities = capabilities })
 
 			-- vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "LSP: Show diagnostic" })
 			-- vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "LSP: setloclist" })
 			-- vim.keymap.set("n", "<space>k", vim.lsp.buf.hover, { desc = "LSP: hover" })
+	{
+		-- Provide JsonSchema support to jsonls
+		-- Redundant for yamlls but still used for advanced optional features
+		"b0o/schemastore.nvim",
+	},
 		end,
 	},
 }
