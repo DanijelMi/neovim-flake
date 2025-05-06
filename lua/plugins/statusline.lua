@@ -35,10 +35,8 @@ return {
 					},
 					{
 						function()
-							-- Retrieve the arglist
-							local arglist = vim.fn.argv()
-							-- Format it into a string representation
-							local arglist_str = table.concat(arglist, " ")
+							local arglist = vim.fn.argv()           -- Retrieve the arglist
+							local arglist_str = table.concat(arglist, " ") -- Format it into a string representation
 							-- Return formatted arglist or a placeholder if empty
 							return (arglist_str == "[]") and "[No Arglist]" or arglist_str
 						end,
@@ -49,16 +47,31 @@ return {
 						end,
 					},
 				},
-				lualine_x = { "encoding", "fileformat", "filetype" },
-				lualine_y = { "progress" },
-				lualine_z = { "location" },
+				lualine_x = {},
+				lualine_y = { "encoding", "fileformat", "filetype" },
+				lualine_z = { { "location" }, { "progress" } },
 			},
 			inactive_sections = {
 				lualine_a = { "filename" },
 				lualine_b = { "location" },
 			},
 			tabline = {
-				lualine_a = { { "tabs", max_length = vim.o.columns, mode = 2 } },
+				lualine_a = { {
+					"tabs",
+					max_length = vim.o.columns,
+					mode = 2,
+					fmt = function(name, context)
+						-- Show + if buffer is modified in tab
+						local buflist = vim.fn.tabpagebuflist(context.tabnr)
+						local winnr = vim.fn.tabpagewinnr(context.tabnr)
+						local bufnr = buflist[winnr]
+						local mod = vim.fn.getbufvar(bufnr, '&mod')
+
+						-- Shorten home user dir to "~"
+						local short_cwd = string.gsub(vim.fn.getcwd(), "^" .. vim.fn.expand("~"), "~")
+						return short_cwd .. (mod == 1 and ' +' or '')
+					end
+				} },
 			},
 			winbar = {
 				lualine_a = {
@@ -67,6 +80,7 @@ return {
 				lualine_b = {
 					{ "filetype", colored = true, icon_only = true, icon = { align = "left" } },
 				},
+				lualine_z = { "lsp_status" },
 			},
 			inactive_winbar = {
 				lualine_a = {
@@ -75,6 +89,7 @@ return {
 				lualine_b = {
 					{ "filetype", colored = true, icon_only = true, icon = { align = "left" } },
 				},
+				lualine_z = { "lsp_status" },
 			},
 			extensions = {},
 		})
