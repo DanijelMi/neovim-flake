@@ -15,20 +15,33 @@ return {
 		-- Quickstart configs for Nvim LSP
 		"neovim/nvim-lspconfig",
 		dependencies = "saghen/blink.cmp",
-		-- config = function(_, opts)
 		config = function()
-			-- capabilities.textDocument.foldingRange = {
-			--   dynamicRegistration = false,
-			--   lineFoldingOnly = true,
-			-- }
+			-- Diagnostic Config
+			-- See :help vim.diagnostic.Opts
+			vim.diagnostic.config({
+				severity_sort = true,
+				update_in_insert = false,
+				float = { border = "rounded", source = true },
+				underline = { severity = { min = vim.diagnostic.severity.WARN } },
+				signs = vim.g.have_nerd_font and {
+					text = {
+						[vim.diagnostic.severity.ERROR] = "󰅚",
+						[vim.diagnostic.severity.WARN] = "󰀪",
+						[vim.diagnostic.severity.INFO] = "󰋽",
+						[vim.diagnostic.severity.HINT] = "󰌶",
+					},
+				} or {},
+				virtual_text = false,
+				virtual_lines = { current_line = true },
+			})
 
-			-- vim.diagnostic.config({
-			--   virtual_text = false,
-			--   signs = true,
-			--   underline = true,
-			--   update_in_insert = true,
-			--   severity_sort = false,
-			-- })
+			-- Toggle all diagnostics
+			vim.keymap.set(
+				"n",
+				"<leader>td",
+				"<cmd>lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<cr>",
+				{ desc = "Toggle diagnostics" }
+			)
 
 			local lspconfig = require("lspconfig")
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
