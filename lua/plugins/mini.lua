@@ -5,7 +5,7 @@ return {
 		config = function()
 			-- Notification GUI top right
 			local mininotify = require("mini.notify")
-			mininotify.setup()
+			mininotify.setup({ lsp_progress = { enable = false } })
 			vim.notify = mininotify.make_notify() -- capture native vim notifications
 			vim.api.nvim_set_keymap(
 				"n",

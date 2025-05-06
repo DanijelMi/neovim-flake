@@ -128,6 +128,14 @@ return {
 			integrations = {
 				snacks = true,
 				diffview = true,
+			},
+			kind = "floating",
+			floating = {
+				relative = "editor",
+				width = 0.93,
+				height = 0.91,
+				style = "minimal",
+				border = "rounded",
 			}
 		},
 		keys = {
