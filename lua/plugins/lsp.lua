@@ -169,6 +169,45 @@ return {
 		end,
 	},
 	{
+		"rachartier/tiny-code-action.nvim",
+		dependencies = {
+			{ "nvim-lua/plenary.nvim" },
+			{
+				"folke/snacks.nvim",
+			},
+		},
+		event = "LspAttach",
+		opts = {
+			backend = "difftastic",
+			picker = { "snacks" },
+			backend_opts = {
+				delta = {
+					header_lines_to_remove = 0,
+					args = {
+						"--line-numbers",
+					},
+				},
+				difftastic = {
+					header_lines_to_remove = 0,
+					args = {
+						"--color=always",
+						"--display=inline",
+						"--syntax-highlight=on",
+					},
+				},
+			},
+		},
+		keys = {
+			{
+				"gra",
+				function()
+					require("tiny-code-action").code_action({})
+				end,
+				desc = "tiny-code-action: Code Action",
+			},
+		},
+	},
+	{
 		-- Provide JsonSchema support to jsonls
 		-- Redundant for yamlls but still used for advanced optional features
 		"b0o/schemastore.nvim",
