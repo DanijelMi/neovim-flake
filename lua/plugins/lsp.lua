@@ -212,6 +212,19 @@ return {
 		-- Redundant for yamlls but still used for advanced optional features
 		"b0o/schemastore.nvim",
 	},
+	{
+		"cenk1cenk2/schema-companion.nvim",
+		dependencies = {
+			{ "nvim-lua/plenary.nvim" },
+		},
+		config = function()
+			require("schema-companion").setup({
+				schemas = {},
+				enable_telescope = false,
+				matchers = {
+					require("schema-companion.matchers.kubernetes").setup({ version = "master" }),
+				},
+			})
 		end,
 	},
 }
