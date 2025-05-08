@@ -2,6 +2,7 @@ return {
 	{
 		"saghen/blink.cmp",
 		dependencies = {
+			{ "olimorris/codecompanion.nvim", },
 			{
 				"L3MON4D3/LuaSnip", -- Advanced Snippet Framework, does not come with any snippets
 				version = "v2.*",
@@ -176,14 +177,17 @@ return {
 							score_offset = 30, -- Boost/penalize the score of the items
 							override = nil, -- Override the source's functions
 						},
+						codecompanion = {
+							score_offset = 70
+						},
 						lazydev = {
 							name = "LazyDev",
 							module = "lazydev.integrations.blink",
 							-- make lazydev completions top priority (see `:h blink.cmp`)
-							score_offset = 100,
+							score_offset = 70,
 						},
 						path = {
-							score_offset = 60,
+							score_offset = 50,
 						},
 						dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
 						dictionary = {

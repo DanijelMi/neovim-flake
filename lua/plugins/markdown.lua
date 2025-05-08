@@ -4,7 +4,9 @@ return {
 		"MeanderingProgrammer/markdown.nvim",
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
+		ft = { "markdown", "codecompanion" },
 		opts = {
+			file_types = { "markdown", "codecompanion" },
 			completions = {
 				lsp = { enabled = true },
 				blink = { enabled = true },

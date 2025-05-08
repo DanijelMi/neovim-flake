@@ -118,6 +118,9 @@ return {
 
 			-- Icon set
 			require("mini.icons").setup()
+
+			-- for CodeCompanion
+			require('mini.diff').setup()
 		end,
 	},
 }

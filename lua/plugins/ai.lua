@@ -1,216 +1,151 @@
 return {
 	{
-		"robitx/gp.nvim",
-		config = function()
-			local conf = {
-				-- For customization, refer to Install > Configuration in the Documentation/Readme
-				providers = {
-					openai = {
-						endpoint = "https://api.openai.com/v1/chat/completions",
-						secret = os.getenv("OPENAI_API_KEY"),
-					},
-					ollama = {
-						disable = false,
-						endpoint = "http://192.168.1.66:9944/v1/chat/completions",
-						secret = os.getenv("LLAMA_IGOR_KEY"),
-					},
-					anthropic = {
-						endpoint = "https://api.anthropic.com/v1/messages",
-						secret = os.getenv("ANTHROPIC_API_KEY"),
-					},
-					openrouter = {
-						endpoint = "https://openrouter.ai/api/v1/chat/completions",
-						secret = os.getenv("OPENROUTER_API_KEY"),
-					},
-				},
-				agents = {
-					{
-						provider = "ollama",
-						name = "Igor's llama",
-						chat = true,
-						command = true,
-						-- string with model name or table with model name and parameters
-						model = {
-							model = "unc-llama3-custom04",
-							-- temperature = 0.6,
-							-- top_p = 1,
-							-- min_p = 0.05,
-						},
-						-- system prompt (use this to specify the persona/role of the AI)
-						system_prompt = "You are a general AI assistant.",
-					},
-					{
-						provider = "openrouter",
-						name = "deepseek-chat-v3-0324:free",
-						chat = true,
-						command = true,
-						-- string with model name or table with model name and parameters
-						model = {
-							model = "deepseek/deepseek-chat-v3-0324:free",
-							-- temperature = 0.6,
-							-- top_p = 1,
-							-- min_p = 0.05,
-						},
-						system_prompt = "Expert coder",
-					},
-				},
-			}
-			require("gp").setup(conf)
-			require("which-key").add({
-				-- VISUAL mode mappings
-				-- s, x, v modes are handled the same way by which_key
-				{
-					mode = { "v" },
-					nowait = true,
-					remap = false,
-					{ "<C-g><C-t>", ":<C-u>'<,'>GpChatNew tabnew<cr>", desc = "ChatNew tabnew" },
-					{ "<C-g><C-v>", ":<C-u>'<,'>GpChatNew vsplit<cr>", desc = "ChatNew vsplit" },
-					{ "<C-g><C-x>", ":<C-u>'<,'>GpChatNew split<cr>", desc = "ChatNew split" },
-					{ "<C-g>a", ":<C-u>'<,'>GpAppend<cr>", desc = "Visual Append (after)" },
-					{ "<C-g>b", ":<C-u>'<,'>GpPrepend<cr>", desc = "Visual Prepend (before)" },
-					{ "<C-g>c", ":<C-u>'<,'>GpChatNew<cr>", desc = "Visual Chat New" },
-					{ "<C-g>g", group = "generate into new .." },
-					{ "<C-g>ge", ":<C-u>'<,'>GpEnew<cr>", desc = "Visual GpEnew" },
-					{ "<C-g>gn", ":<C-u>'<,'>GpNew<cr>", desc = "Visual GpNew" },
-					{ "<C-g>gp", ":<C-u>'<,'>GpPopup<cr>", desc = "Visual Popup" },
-					{ "<C-g>gt", ":<C-u>'<,'>GpTabnew<cr>", desc = "Visual GpTabnew" },
-					{ "<C-g>gv", ":<C-u>'<,'>GpVnew<cr>", desc = "Visual GpVnew" },
-					{ "<C-g>i", ":<C-u>'<,'>GpImplement<cr>", desc = "Implement selection" },
-					{ "<C-g>n", "<cmd>GpNextAgent<cr>", desc = "Next Agent" },
-					{ "<C-g>p", ":<C-u>'<,'>GpChatPaste<cr>", desc = "Visual Chat Paste" },
-					{ "<C-g>r", ":<C-u>'<,'>GpRewrite<cr>", desc = "Visual Rewrite" },
-					{ "<C-g>s", "<cmd>GpStop<cr>", desc = "GpStop" },
-					{ "<C-g>t", ":<C-u>'<,'>GpChatToggle<cr>", desc = "Visual Toggle Chat" },
-					{ "<C-g>w", group = "Whisper" },
-					{ "<C-g>wa", ":<C-u>'<,'>GpWhisperAppend<cr>", desc = "Whisper Append" },
-					{ "<C-g>wb", ":<C-u>'<,'>GpWhisperPrepend<cr>", desc = "Whisper Prepend" },
-					{ "<C-g>we", ":<C-u>'<,'>GpWhisperEnew<cr>", desc = "Whisper Enew" },
-					{ "<C-g>wn", ":<C-u>'<,'>GpWhisperNew<cr>", desc = "Whisper New" },
-					{ "<C-g>wp", ":<C-u>'<,'>GpWhisperPopup<cr>", desc = "Whisper Popup" },
-					{ "<C-g>wr", ":<C-u>'<,'>GpWhisperRewrite<cr>", desc = "Whisper Rewrite" },
-					{ "<C-g>wt", ":<C-u>'<,'>GpWhisperTabnew<cr>", desc = "Whisper Tabnew" },
-					{ "<C-g>wv", ":<C-u>'<,'>GpWhisperVnew<cr>", desc = "Whisper Vnew" },
-					{ "<C-g>ww", ":<C-u>'<,'>GpWhisper<cr>", desc = "Whisper" },
-					{ "<C-g>x", ":<C-u>'<,'>GpContext<cr>", desc = "Visual GpContext" },
-				},
-
-				-- NORMAL mode mappings
-				{
-					mode = { "n" },
-					nowait = true,
-					remap = false,
-					{ "<C-g><C-t>", "<cmd>GpChatNew tabnew<cr>", desc = "New Chat tabnew" },
-					{ "<C-g><C-v>", "<cmd>GpChatNew vsplit<cr>", desc = "New Chat vsplit" },
-					{ "<C-g><C-x>", "<cmd>GpChatNew split<cr>", desc = "New Chat split" },
-					{ "<C-g>a", "<cmd>GpAppend<cr>", desc = "Append (after)" },
-					{ "<C-g>b", "<cmd>GpPrepend<cr>", desc = "Prepend (before)" },
-					{ "<C-g>c", "<cmd>GpChatNew<cr>", desc = "New Chat" },
-					{ "<C-g>f", "<cmd>GpChatFinder<cr>", desc = "Chat Finder" },
-					{ "<C-g>g", group = "generate into new .." },
-					{ "<C-g>ge", "<cmd>GpEnew<cr>", desc = "GpEnew" },
-					{ "<C-g>gn", "<cmd>GpNew<cr>", desc = "GpNew" },
-					{ "<C-g>gp", "<cmd>GpPopup<cr>", desc = "Popup" },
-					{ "<C-g>gt", "<cmd>GpTabnew<cr>", desc = "GpTabnew" },
-					{ "<C-g>gv", "<cmd>GpVnew<cr>", desc = "GpVnew" },
-					{ "<C-g>n", "<cmd>GpNextAgent<cr>", desc = "Next Agent" },
-					{ "<C-g>r", "<cmd>GpRewrite<cr>", desc = "Inline Rewrite" },
-					{ "<C-g>s", "<cmd>GpStop<cr>", desc = "GpStop" },
-					{ "<C-g>t", "<cmd>GpChatToggle<cr>", desc = "Toggle Chat" },
-					{ "<C-g>w", group = "Whisper" },
-					{ "<C-g>wa", "<cmd>GpWhisperAppend<cr>", desc = "Whisper Append (after)" },
-					{ "<C-g>wb", "<cmd>GpWhisperPrepend<cr>", desc = "Whisper Prepend (before)" },
-					{ "<C-g>we", "<cmd>GpWhisperEnew<cr>", desc = "Whisper Enew" },
-					{ "<C-g>wn", "<cmd>GpWhisperNew<cr>", desc = "Whisper New" },
-					{ "<C-g>wp", "<cmd>GpWhisperPopup<cr>", desc = "Whisper Popup" },
-					{ "<C-g>wr", "<cmd>GpWhisperRewrite<cr>", desc = "Whisper Inline Rewrite" },
-					{ "<C-g>wt", "<cmd>GpWhisperTabnew<cr>", desc = "Whisper Tabnew" },
-					{ "<C-g>wv", "<cmd>GpWhisperVnew<cr>", desc = "Whisper Vnew" },
-					{ "<C-g>ww", "<cmd>GpWhisper<cr>", desc = "Whisper" },
-					{ "<C-g>x", "<cmd>GpContext<cr>", desc = "Toggle GpContext" },
-				},
-
-				-- INSERT mode mappings
-				{
-					mode = { "i" },
-					nowait = true,
-					remap = false,
-					{ "<C-g><C-t>", "<cmd>GpChatNew tabnew<cr>", desc = "New Chat tabnew" },
-					{ "<C-g><C-v>", "<cmd>GpChatNew vsplit<cr>", desc = "New Chat vsplit" },
-					{ "<C-g><C-x>", "<cmd>GpChatNew split<cr>", desc = "New Chat split" },
-					{ "<C-g>a", "<cmd>GpAppend<cr>", desc = "Append (after)" },
-					{ "<C-g>b", "<cmd>GpPrepend<cr>", desc = "Prepend (before)" },
-					{ "<C-g>c", "<cmd>GpChatNew<cr>", desc = "New Chat" },
-					{ "<C-g>f", "<cmd>GpChatFinder<cr>", desc = "Chat Finder" },
-					{ "<C-g>g", group = "generate into new .." },
-					{ "<C-g>ge", "<cmd>GpEnew<cr>", desc = "GpEnew" },
-					{ "<C-g>gn", "<cmd>GpNew<cr>", desc = "GpNew" },
-					{ "<C-g>gp", "<cmd>GpPopup<cr>", desc = "Popup" },
-					{ "<C-g>gt", "<cmd>GpTabnew<cr>", desc = "GpTabnew" },
-					{ "<C-g>gv", "<cmd>GpVnew<cr>", desc = "GpVnew" },
-					{ "<C-g>n", "<cmd>GpNextAgent<cr>", desc = "Next Agent" },
-					{ "<C-g>r", "<cmd>GpRewrite<cr>", desc = "Inline Rewrite" },
-					{ "<C-g>s", "<cmd>GpStop<cr>", desc = "GpStop" },
-					{ "<C-g>t", "<cmd>GpChatToggle<cr>", desc = "Toggle Chat" },
-					{ "<C-g>w", group = "Whisper" },
-					{ "<C-g>wa", "<cmd>GpWhisperAppend<cr>", desc = "Whisper Append (after)" },
-					{ "<C-g>wb", "<cmd>GpWhisperPrepend<cr>", desc = "Whisper Prepend (before)" },
-					{ "<C-g>we", "<cmd>GpWhisperEnew<cr>", desc = "Whisper Enew" },
-					{ "<C-g>wn", "<cmd>GpWhisperNew<cr>", desc = "Whisper New" },
-					{ "<C-g>wp", "<cmd>GpWhisperPopup<cr>", desc = "Whisper Popup" },
-					{ "<C-g>wr", "<cmd>GpWhisperRewrite<cr>", desc = "Whisper Inline Rewrite" },
-					{ "<C-g>wt", "<cmd>GpWhisperTabnew<cr>", desc = "Whisper Tabnew" },
-					{ "<C-g>wv", "<cmd>GpWhisperVnew<cr>", desc = "Whisper Vnew" },
-					{ "<C-g>ww", "<cmd>GpWhisper<cr>", desc = "Whisper" },
-					{ "<C-g>x", "<cmd>GpContext<cr>", desc = "Toggle GpContext" },
-				},
-			})
-		end,
-	},
-	{
 		"olimorris/codecompanion.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
+			"ravitemer/mcphub.nvim",
 		},
-		opts = {
-			strategies = {
-				chat = {
-					adapter = "openai",
-				},
-				inline = {
-					adapter = "openai",
-				},
-				cmd = {
-					adapter = "openai",
-				},
-			},
-			adapters = {
-				-- adapters will look in your environment for a *_API_KEY
-				openai = function()
-					return require("codecompanion.adapters").extend("openai", {
-						env = {
-							api_key = os.getenv("OPENAI_API_KEY"),
-						},
-						schema = {
-							model = {
-								default = "gpt-4",
-							},
-						},
-					})
-				end,
-			},
-			display = {
-				action_palette = {
-					width = 95,
-					height = 10,
-					prompt = "Prompt ", -- Prompt used for interactive LLM calls
-					provider = "default", -- default|telescope|mini_pick
-					opts = {
-						show_default_actions = true, -- Show the default actions in the action palette?
-						show_default_prompt_library = true, -- Show the default prompt library in the action palette?
+		config = function()
+			local default_model = "google/gemini-2.0-flash-001"
+			local available_models = {
+				"google/gemini-2.0-flash-001",
+				"google/gemini-2.5-pro-preview",
+				"anthropic/claude-3.7-sonnet",
+				"anthropic/claude-3.5-sonnet",
+				"openai/gpt-4o-mini",
+			}
+			local current_model = default_model
+
+			local function select_model()
+				vim.ui.select(available_models, {
+					prompt = "Select  Model:",
+				}, function(choice)
+					if choice then
+						current_model = choice
+						vim.notify("Selected model: " .. current_model)
+					end
+				end)
+			end
+
+			require("codecompanion").setup({
+				display = {
+					chat = {
+						intro_message = "CodeCompanion, ? for opts",
+						show_header_separator = false, -- Show header separators in the chat buffer? Set this to false if you're using an external markdown formatting plugin
+						show_settings = true,    -- Show LLM settings at the top of the chat buffer
+						auto_scroll = false
+					},
+					action_palette = {
+						prompt = "actionpalleteprompt: ",
+						provider = "snacks",
 					},
 				},
-			},
-		},
+				strategies = {
+					chat = {
+						slash_commands = {
+							["file"] = {
+								-- Location to the slash command in CodeCompanion
+								callback = "strategies.chat.slash_commands.file",
+								description = "Select a file using Picker",
+								opts = {
+									provider = "snacks",
+									contains_code = true,
+								},
+							},
+							["git_files"] = {
+								description = "List git files",
+								---@param chat CodeCompanion.Chat
+								callback = function(chat)
+									local handle = io.popen("git ls-files")
+									if handle ~= nil then
+										local result = handle:read("*a")
+										handle:close()
+										chat:add_reference({ role = "user", content = result }, "git", "<git_files>")
+									else
+										return vim.notify("No git files available", vim.log.levels.INFO, { title = "CodeCompanion" })
+									end
+								end,
+								opts = {
+									contains_code = false,
+								},
+							},
+						},
+						adapter = "openrouter",
+						keymaps = {
+							send = {
+								modes = { n = "<C-s>", i = "<C-s>" },
+							},
+							close = {
+								modes = { n = "<C-c>", i = "<C-c>" },
+							},
+						},
+					},
+					inline = {
+						adapter = "openrouter",
+						inline = {
+							keymaps = {
+								accept_change = {
+									modes = { n = "ga" },
+									description = "Accept the suggested change",
+								},
+								reject_change = {
+									modes = { n = "gr" },
+									description = "Reject the suggested change",
+								},
+							},
+						},
+					},
+				},
+				adapters = {
+					opts = {
+						show_defaults = false, -- Remove builtin adapters
+					},
+					openrouter = function()
+						return require("codecompanion.adapters").extend("openai_compatible", {
+							name = "OpenRouter",
+							env = {
+								url = "https://openrouter.ai/api",
+								api_key = os.getenv("OPENROUTER_API_KEY"),
+								chat_url = "/v1/chat/completions",
+							},
+							schema = {
+								model = {
+									default = current_model,
+								},
+							},
+						})
+					end,
+				},
+				extensions = {
+					mcphub = {
+						callback = "mcphub.extensions.codecompanion",
+						opts = {
+							make_vars = true,
+							make_slash_commands = true,
+							show_result_in_chat = true
+						}
+					}
+				},
+				-- Completion source for nvim-cmp or blink.cmp
+				sources = {
+					per_filetype = {
+						codecompanion = { "codecompanion" },
+					}
+				},
+			})
+
+			vim.keymap.set({ "n", "v" }, "<leader>cl", "<cmd>CodeCompanionActions<cr>",
+				{ noremap = true, silent = true, desc = "List available CC actions" })
+			vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle Chat<cr>",
+				{ noremap = true, silent = true, desc = "Toggle CC chat" })
+			vim.keymap.set("v", "<leader>ca", "<cmd>CodeCompanionChat Add<cr>",
+				{ noremap = true, silent = true, desc = "Add selection to CC" })
+			vim.keymap.set("n", "<leader>cs", select_model, { desc = "Select Gemini Model" })
+			-- TODO: Open this url on a keybind: https://openrouter.ai/settings/credits
+			-- OR just get api lol https://openrouter.ai/docs/api-reference/get-credits and print as vim notification
+			-- Expand 'cc' into 'CodeCompanion' in the command line
+			vim.cmd([[cab cc CodeCompanion]])
+		end,
 	},
 }
