@@ -142,7 +142,7 @@ return {
 				fuzzy = {
 					implementation = "prefer_rust_with_warning",
 				},
-				snippets = { preset = "luasnip", score_offset = 20 },
+				snippets = { preset = "luasnip", score_offset = 0 },
 				-- :checkhealth blink.cmp to see all available sources
 				sources = {
 					default = {
@@ -174,20 +174,21 @@ return {
 							-- If this provider returns 0 items, it will fallback to these providers.
 							-- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
 							fallbacks = {},
-							score_offset = 30, -- Boost/penalize the score of the items
+							score_offset = 10, -- Boost/penalize the score of the items
 							override = nil, -- Override the source's functions
 						},
-						codecompanion = {
-							score_offset = 70
-						},
+						-- Sometime fails due to race condition
+						-- codecompanion = {
+						-- 	score_offset = 70
+						-- },
 						lazydev = {
 							name = "LazyDev",
 							module = "lazydev.integrations.blink",
 							-- make lazydev completions top priority (see `:h blink.cmp`)
-							score_offset = 70,
+							score_offset = 20,
 						},
 						path = {
-							score_offset = 50,
+							score_offset = 5,
 						},
 						dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
 						dictionary = {
