@@ -5,6 +5,7 @@ return {
 		"folke/snacks.nvim",
 		opts = {
 			picker = {
+				ui_select = true, -- replace `vim.ui.select` with the snacks picker
 				sources = {
 					-- Custom source for directory browsing
 					dirs = {
@@ -202,7 +203,7 @@ return {
 			{
 				"<leader>gb",
 				function()
-					Snacks.picker.git_branches()
+					Snacks.picker.git_branches({ all = true })
 				end,
 				desc = "Git Branches",
 			},

@@ -125,18 +125,6 @@ return {
 		},
 		opts = {
 			graph_style = "kitty", -- If nerd font present
-			integrations = {
-				snacks = true,
-				diffview = true,
-			},
-			kind = "floating",
-			floating = {
-				relative = "editor",
-				width = 0.93,
-				height = 0.91,
-				style = "minimal",
-				border = "rounded",
-			}
 		},
 		keys = {
 			{ "<leader>G", "<Cmd>Neogit<CR>", desc = "Open Neogit" },
