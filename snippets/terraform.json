@@ -1,8 +1,20 @@
 {
-	"snip3": {
-		"prefix": "resources",
+	"tf-import": {
+		"prefix": "import",
 		"body": [
-			"coc_testinghall $1"
+			"import {",
+			"\tto = $1",
+			"\tid = $2",
+			"}"
+		]
+	},
+	"tf-moved": {
+		"prefix": "moved",
+		"body": [
+			"moved {",
+			"\tfrom = $1",
+			"\tto = $2",
+			"}"
 		]
 	}
 }
