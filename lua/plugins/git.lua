@@ -23,9 +23,8 @@ return {
 			numhl = true,   -- Toggle with `:Gitsigns toggle_numhl`
 			linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
 			word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
-			watch_gitdir = {
-				follow_files = true,
-			},
+			watch_gitdir = { follow_files = true, },
+			diff_opts = { internal = true },
 			auto_attach = true,
 			attach_to_untracked = false,
 			current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
@@ -76,12 +75,12 @@ return {
 				end, { desc = "Previous git hunk" })
 
 				-- Actions
-				map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "Stage hunk" })
-				map("n", "<leader>hr", gitsigns.reset_hunk, { desc = "Reset hunk" })
+				-- map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "Stage hunk" })
+				-- map("n", "<leader>hr", gitsigns.reset_hunk, { desc = "Reset hunk" })
 
-				map("v", "<leader>hs", function()
-					gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v"), { desc = "Stage hunk selection" } })
-				end)
+				-- map("v", "<leader>hs", function()
+				-- 	gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v"), { desc = "Stage hunk selection" } })
+				-- end)
 
 				map("v", "<leader>hr", function()
 					gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v"), { desc = "Reset hunk selection" } })
@@ -108,12 +107,47 @@ return {
 				map("n", "<leader>hq", gitsigns.setqflist, { desc = "Set quickfixlist" })
 
 				-- Toggles
-				map("n", "<leader>tb", gitsigns.toggle_current_line_blame, { desc = "Toggle current line blame" })
-				map("n", "<leader>tw", gitsigns.toggle_word_diff, { desc = "Toggle word diff" })
+				map("n", "<leader>gtb",
+					function() vim.notify("Toggled current line blame to: " .. tostring(gitsigns.toggle_current_line_blame())) end,
+					{ desc = "Toggle current line blame" })
+				map("n", "<leader>gtw",
+					function() vim.notify("Toggled word diffs to: " .. tostring(gitsigns.toggle_word_diff())) end,
+					{ desc = "Toggle word diff" })
+				map("n", "<leader>gtl",
+					function() vim.notify("Toggled line highlights to: " .. tostring(gitsigns.toggle_linehl())) end,
+					{ desc = "Toggle line diff" })
+				map("n", "<leader>gtd",
+					function() vim.notify("Toggled deleted lines to: " .. tostring(gitsigns.toggle_deleted())) end,
+					{ desc = "Toggle deleted diff" })
 
 				-- Text object
 				map({ "o", "x" }, "ih", gitsigns.select_hunk, { desc = "Select hunk" })
 			end,
+		},
+		keys = {
+			{
+				"<leader>hs",
+				function()
+					require("gitsigns").stage_hunk()
+				end,
+				desc = "Gitsigns: Stage hunk",
+			},
+			{
+				"<leader>hr",
+				function()
+					require("gitsigns").reset_hunk()
+				end,
+				desc = "Gitsigns: Reset hunk",
+			},
+			{
+				mode = "v",
+				"<leader>hs",
+				function()
+					require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+					-- 	gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v"), { desc = "Stage hunk selection" } })
+				end,
+				desc = "Gitsigns: Visual stage hunk",
+			},
 		},
 	},
 	{
@@ -132,6 +166,7 @@ return {
 	},
 	{
 		"sindrets/diffview.nvim",
+		lazy = false,
 		keys = {
 			{
 				"<leader>gd",
@@ -139,28 +174,61 @@ return {
 				desc = "Open DiffView",
 			},
 			{
+				mode = "n",
 				"<leader>gh",
-				"<cmd>DiffviewFileHistory %<CR>",
-				desc = "Open DiffView: Current File History",
+				"<cmd>DiffviewFileHistory --follow%<CR>",
+				desc = "DiffView: Current File History",
+			},
+			{
+				mode = "v",
+				"<leader>gh",
+				"<Esc><Cmd>'<,'>DiffviewFileHistory --follow<CR>",
+				desc = 'DiffView: Range history',
 			},
 			{
 				"<leader>gH",
 				"<cmd>DiffviewFileHistory<CR>",
-				desc = "Open DiffView: Repo File History",
+				desc = "DiffView: Repo File History",
 			},
 		},
+
 		config = function()
-			-- Lua
+			vim.api.nvim_create_autocmd("ColorScheme", {
+				desc = "Set diff highlights",
+				group = vim.api.nvim_create_augroup("GitHighlights", { clear = true }),
+				callback = function()
+					-- Highlight groups
+					vim.api.nvim_set_hl(0, 'DiffAdd', { bg = '#34462F' })
+					vim.api.nvim_set_hl(0, 'DiffDelete', { bg = '#462F2F' })
+					vim.api.nvim_set_hl(0, 'DiffChange', { bg = '#463C2F' })
+					vim.api.nvim_set_hl(0, 'DiffText', { bg = '#746235' })
+
+					-- Link inline git signs to diff highlights
+					vim.api.nvim_set_hl(0, 'GitSignsAddInline', { link = 'DiffAdd' })
+					vim.api.nvim_set_hl(0, 'GitSignsChangeInline', { link = 'DiffChange' })
+					vim.api.nvim_set_hl(0, 'GitSignsDeleteInline', { link = 'DiffDelete' })
+
+					vim.api.nvim_set_hl(0, 'GitSignsAddLnInline', { link = 'DiffAdd' })
+					vim.api.nvim_set_hl(0, 'GitSignsChangeLnInline', { link = 'DiffChange' })
+					vim.api.nvim_set_hl(0, 'GitSignsDeleteLnInline', { link = 'DiffDelete' })
+
+					vim.api.nvim_set_hl(0, 'GitSignsAddVirtLnInline', { link = 'DiffAdd' })
+					vim.api.nvim_set_hl(0, 'GitSignsChangeVirtLnInline', { link = 'DiffChange' })
+					vim.api.nvim_set_hl(0, 'GitSignsDeleteVirtLnInline', { link = 'DiffDelete' })
+				end,
+			})
+			vim.cmd("doautocmd ColorScheme")
+
 			local actions = require("diffview.actions")
 
 			require("diffview").setup({
 				diff_binaries = false, -- Show diffs for binaries
-				enhanced_diff_hl = false, -- See |diffview-config-enhanced_diff_hl|
-				git_cmd = { "git" },  -- The git executable followed by default args.
-				use_icons = true,     -- Requires nvim-web-devicons
+				enhanced_diff_hl = true,
+				git_cmd = { "git" }, -- The git executable followed by default args.
+				use_icons = true,   -- Requires nvim-web-devicons
 				show_help_hints = true, -- Show hints for how to open the help panel
-				watch_index = true,   -- Update views and index buffers when the git index changes.
-				icons = {             -- Only applies when use_icons is true.
+				watch_index = true, -- Update views and index buffers when the git index changes.
+				icons = {           -- Only applies when use_icons is true.
 					folder_closed = "",
 					folder_open = "",
 				},

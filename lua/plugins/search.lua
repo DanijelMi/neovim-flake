@@ -203,7 +203,11 @@ return {
 			{
 				"<leader>gb",
 				function()
-					Snacks.picker.git_branches({ all = true })
+					Snacks.picker.git_branches({
+						all = true,
+						-- The default "git_branch" format truncates branch names, so I'm keeping it simple
+						format = "text",
+					})
 				end,
 				desc = "Git Branches",
 			},
