@@ -51,51 +51,61 @@ return {
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 			-- Lua
-			lspconfig["lua_ls"].setup({
-				capabilities = capabilities,
-				settings = { Lua = { runtime = { version = "LuaJIT" }, hint = { enable = true } } },
+			vim.lsp.enable('lua_ls')
+			vim.lsp.config('luals', {
+				filetypes = { 'lua' },
+				settings = {
+					Lua = {
+						runtime = {
+							version = 'LuaJIT',
+						},
+						hint = {
+							enable = true
+						}
+					}
+				}
 			})
 			-- Nix
-			lspconfig["nixd"].setup({ capabilities = capabilities })
+			vim.lsp.enable('nixd')
 			-- Markdown
-			lspconfig["marksman"].setup({ capabilities = capabilities })
-			-- Terraform
-			lspconfig["terraformls"].setup({ capabilities = capabilities })
-			lspconfig["tflint"].setup({ capabilities = capabilities })
+			vim.lsp.enable('marksman')
+			-- OpenTofu
+			vim.lsp.enable('tofu_ls')
+			vim.lsp.enable('tflint')
 			-- Bash
-			lspconfig["bashls"].setup({ capabilities = capabilities })
+			vim.lsp.enable('bashls')
+			-- Python
+			vim.lsp.enable('basedpyright')
 			-- Grammar
-			lspconfig["harper_ls"].setup({
-				capabilities = capabilities,
+			vim.lsp.enable('harper_ls')
+			vim.lsp.config('harper_ls', {
 				filetypes = { "markdown", "text" },
 			})
 			-- JSON
-			lspconfig["jsonls"].setup({
-				capabilities = capabilities,
+			vim.lsp.enable('jsonls')
+			vim.lsp.config('jsonls', {
 				schemas = require("schemastore").json.schemas(),
-				validate = { enable = true },
+				validate = { enable = true }
 			})
 			-- YAML
-			lspconfig.yamlls.setup({
-				require("schema-companion").setup_client({ -- Wrap
-					capabilities = capabilities,
-					settings = {
-						yaml = {
-							schemaStore = {
-								-- Disable built-in schemaStore fetching, we aree reliyng on schemastore plugin
-								enable = false,
-								-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-								url = "",
-							},
-							schemas = require("schemastore").yaml.schemas(),
+			vim.lsp.enable('yamlls')
+			vim.lsp.config('yamlls', {
+				settings = {
+					yaml = {
+						schemaStore = {
+							-- Disable built-in schemaStore fetching, we are relying on schemastore plugin
+							enable = false,
+							-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+							url = "",
 						},
+						schemas = require("schemastore").yaml.schemas(),
 					},
-				}),
+				},
 			})
 			-- Gitlab (depends on yamlls + gitlab schema)
-			lspconfig["gitlab_ci_ls"].setup({ capabilities = capabilities })
-			-- PostgreSQL
-			lspconfig["postgres_lsp"].setup({ capabilities = capabilities })
+			vim.lsp.enable('gitlab_ci_ls')
+			-- -- PostgreSQL
+			vim.lsp.enable('postgres_lsp')
 
 			-- vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "LSP: Show diagnostic" })
 			-- vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "LSP: setloclist" })
@@ -221,8 +231,11 @@ return {
 			require("schema-companion").setup({
 				schemas = {},
 				enable_telescope = false,
+				sources = {
+					require("schema-companion").sources.lsp.setup()
+				},
 				matchers = {
-					require("schema-companion.matchers.kubernetes").setup({ version = "master" }),
+					require("schema-companion").sources.matchers.kubernetes.setup({ version = "master" }),
 				},
 			})
 		end,
