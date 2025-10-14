@@ -17,6 +17,7 @@ return {
 			gitcommit = { "commitlint" },
 			env = { "dotenv_linter" },
 			terraform = { "trivy" },
+			python = { "ruff" },
 			-- text = { "vale" },
 			-- make = { "checkmake" },
 			-- json = { "jsonlint" },

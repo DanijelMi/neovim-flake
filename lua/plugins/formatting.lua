@@ -27,6 +27,7 @@ return {
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()" -- register for gq movement
 			require("conform").setup({
 				formatters_by_ft = {
+					python = { "ruff_format" },
 					-- lua = { "stylua" },
 					-- nix = { "nixfmt" },
 					-- markdown = { "prettier" },
