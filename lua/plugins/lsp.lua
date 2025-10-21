@@ -70,6 +70,11 @@ return {
 			-- Markdown
 			vim.lsp.enable('marksman')
 			-- OpenTofu
+			vim.lsp.config('tofu_ls', {
+				cmd = {'tofu-ls', 'serve'},
+				filetypes = {'terraform', 'terraform-vars'},
+				root_markers = { '.terraform', '.git'},
+			})
 			vim.lsp.enable('tofu_ls')
 			vim.lsp.enable('tflint')
 			-- Bash
