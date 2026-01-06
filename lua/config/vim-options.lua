@@ -28,10 +28,11 @@ vim.schedule(function()
 end)
 
 -- VISUAL OPTIONS
-vim.opt.laststatus = 2      -- Always show status line
+vim.opt.laststatus = 2 -- Always show status line
 vim.opt.background = "dark" -- Dark or light mode
-vim.opt.ruler = true        -- Show line and col numbers in status
-vim.opt.list = true
+vim.opt.ruler = true -- Show line and col numbers in status
+vim.opt.list = true -- Display whitespace characters (tabs, trailing spaces, etc.)
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' } -- Configure which whitespace characters to display
 
 -- TAB AND SHIFT OPTIONS
 vim.opt.shiftround = true -- Round indent to multiple of shiftwidth
