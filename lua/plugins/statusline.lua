@@ -49,7 +49,13 @@ return {
 				},
 				lualine_x = {},
 				lualine_y = { "encoding", "fileformat", "filetype" },
-				lualine_z = { { "location" }, { "progress" } },
+				lualine_z = {
+					{ "location" },
+					{ "progress" },
+					{
+						require("opencode").statusline,
+					},
+				},
 			},
 			inactive_sections = {
 				lualine_a = { "filename" },

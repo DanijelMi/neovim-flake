@@ -1,150 +1,98 @@
 return {
 	{
-		"olimorris/codecompanion.nvim",
+		"NickvanDyke/opencode.nvim",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-			"ravitemer/mcphub.nvim",
+			-- Recommended for `ask()` and `select()`.
+			-- Required for `snacks` provider.
+			---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
+			{ "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
 		},
 		config = function()
-			local default_model = "google/gemini-2.0-flash-001"
-			local available_models = {
-				"google/gemini-2.0-flash-001",
-				"google/gemini-2.5-pro-preview",
-				"anthropic/claude-3.7-sonnet",
-				"anthropic/claude-3.5-sonnet",
-				"openai/gpt-4o-mini",
+			---@type opencode.Opts
+			vim.g.opencode_opts = {
+				-- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition".
 			}
-			local current_model = default_model
 
-			local function select_model()
-				vim.ui.select(available_models, {
-					prompt = "Select  Model:",
-				}, function(choice)
-					if choice then
-						current_model = choice
-						vim.notify("Selected model: " .. current_model)
-					end
-				end)
-			end
+			-- Required for `opts.events.reload`.
+			vim.o.autoread = true
 
-			require("codecompanion").setup({
-				display = {
-					chat = {
-						intro_message = "CodeCompanion, ? for opts",
-						show_header_separator = false, -- Show header separators in the chat buffer? Set this to false if you're using an external markdown formatting plugin
-						show_settings = true,    -- Show LLM settings at the top of the chat buffer
-						auto_scroll = false
-					},
-					action_palette = {
-						prompt = "actionpalleteprompt: ",
-						provider = "snacks",
-					},
-				},
-				strategies = {
-					chat = {
-						slash_commands = {
-							["file"] = {
-								-- Location to the slash command in CodeCompanion
-								callback = "strategies.chat.slash_commands.file",
-								description = "Select a file using Picker",
-								opts = {
-									provider = "snacks",
-									contains_code = true,
-								},
-							},
-							["git_files"] = {
-								description = "List git files",
-								---@param chat CodeCompanion.Chat
-								callback = function(chat)
-									local handle = io.popen("git ls-files")
-									if handle ~= nil then
-										local result = handle:read("*a")
-										handle:close()
-										chat:add_reference({ role = "user", content = result }, "git", "<git_files>")
-									else
-										return vim.notify("No git files available", vim.log.levels.INFO, { title = "CodeCompanion" })
-									end
-								end,
-								opts = {
-									contains_code = false,
-								},
-							},
-						},
-						adapter = "openrouter",
-						keymaps = {
-							send = {
-								modes = { n = "<C-s>", i = "<C-s>" },
-							},
-							close = {
-								modes = { n = "<C-c>", i = "<C-c>" },
-							},
-						},
-					},
-					inline = {
-						adapter = "openrouter",
-						inline = {
-							keymaps = {
-								accept_change = {
-									modes = { n = "ga" },
-									description = "Accept the suggested change",
-								},
-								reject_change = {
-									modes = { n = "gr" },
-									description = "Reject the suggested change",
-								},
-							},
-						},
-					},
-				},
-				adapters = {
-					http = {
-						openrouter = function()
-							return require("codecompanion.adapters").extend("openai_compatible", {
-								name = "OpenRouter",
-								env = {
-									url = "https://openrouter.ai/api",
-									api_key = os.getenv("OPENROUTER_API_KEY"),
-									chat_url = "/v1/chat/completions",
-								},
-								schema = {
-									model = {
-										default = current_model,
-									},
-								},
-							})
-						end,
-					}
-				},
-				extensions = {
-					mcphub = {
-						callback = "mcphub.extensions.codecompanion",
-						opts = {
-							make_vars = true,
-							make_slash_commands = true,
-							show_result_in_chat = true
-						}
-					}
-				},
-				-- Completion source for nvim-cmp or blink.cmp
-				sources = {
-					per_filetype = {
-						codecompanion = { "codecompanion" },
-					}
-				},
-			})
+			-- Core keymaps
+			vim.keymap.set({ "n", "x" }, "<leader>ca", function() require("opencode").ask("@this: ", { submit = true }) end,
+				{ desc = "Ask opencode" })
+			vim.keymap.set({ "n" }, "<leader>cA", function() require("opencode").ask() end,
+				{ desc = "Ask opencode (empty)" })
+			vim.keymap.set({ "n", "x" }, "<leader>cx", function() require("opencode").select() end,
+				{ desc = "Execute opencode action" })
+			vim.keymap.set({ "n", "t" }, "<leader>cc", function() require("opencode").toggle() end,
+				{ desc = "Toggle opencode" })
 
-			vim.keymap.set({ "n", "v" }, "<leader>cl", "<cmd>CodeCompanionActions<cr>",
-				{ noremap = true, silent = true, desc = "List available CC actions" })
-			vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle Chat<cr>",
-				{ noremap = true, silent = true, desc = "Toggle CC chat" })
-			vim.keymap.set("v", "<leader>ca", "<cmd>CodeCompanionChat Add<cr>",
-				{ noremap = true, silent = true, desc = "Add selection to CC" })
-			vim.keymap.set("n", "<leader>cs", select_model, { desc = "Select Gemini Model" })
-			-- TODO: Open this url on a keybind: https://openrouter.ai/settings/credits
-			-- OR just get api lol https://openrouter.ai/docs/api-reference/get-credits and print as vim notification
-			-- Expand 'cc' into 'CodeCompanion' in the command line
-			vim.cmd([[cab cc CodeCompanion]])
+			-- Operator keymaps
+			vim.keymap.set({ "n", "x" }, "<leader>co", function() return require("opencode").operator("@this ") end,
+				{ expr = true, desc = "Add range to opencode" })
+			vim.keymap.set("n", "<leader>coo", function() return require("opencode").operator("@this ") .. "_" end,
+				{ expr = true, desc = "Add line to opencode" })
+
+			-- Session management
+			vim.keymap.set("n", "<leader>cn", function() require("opencode").command("session.new") end,
+				{ desc = "New session" })
+			vim.keymap.set("n", "<leader>cl", function() require("opencode").command("session.list") end,
+				{ desc = "List sessions" })
+			vim.keymap.set("n", "<leader>cs", function() require("opencode").command("session.share") end,
+				{ desc = "Share session" })
+			vim.keymap.set("n", "<leader>ci", function() require("opencode").command("session.interrupt") end,
+				{ desc = "Interrupt session" })
+			vim.keymap.set("n", "<leader>cC", function() require("opencode").command("session.compact") end,
+				{ desc = "Compact session" })
+
+			-- Message navigation
+			vim.keymap.set("n", "<leader>cu", function() require("opencode").command("session.half.page.up") end,
+				{ desc = "Scroll messages up (half)" })
+			vim.keymap.set("n", "<leader>cd", function() require("opencode").command("session.half.page.down") end,
+				{ desc = "Scroll messages down (half)" })
+			vim.keymap.set("n", "<leader>cU", function() require("opencode").command("session.page.up") end,
+				{ desc = "Scroll messages up (full)" })
+			vim.keymap.set("n", "<leader>cD", function() require("opencode").command("session.page.down") end,
+				{ desc = "Scroll messages down (full)" })
+			vim.keymap.set("n", "<leader>cg", function() require("opencode").command("session.first") end,
+				{ desc = "First message" })
+			vim.keymap.set("n", "<leader>cG", function() require("opencode").command("session.last") end,
+				{ desc = "Last message" })
+
+			-- Undo/Redo
+			vim.keymap.set("n", "<leader>cz", function() require("opencode").command("session.undo") end,
+				{ desc = "Undo last change" })
+			vim.keymap.set("n", "<leader>cZ", function() require("opencode").command("session.redo") end,
+				{ desc = "Redo last change" })
+
+			-- Prompt commands
+			vim.keymap.set("n", "<leader>cp", function() require("opencode").command("prompt.submit") end,
+				{ desc = "Submit prompt" })
+			vim.keymap.set("n", "<leader>cP", function() require("opencode").command("prompt.clear") end,
+				{ desc = "Clear prompt" })
+
+			-- Agent
+			vim.keymap.set("n", "<leader>cw", function() require("opencode").command("agent.cycle") end,
+				{ desc = "Cycle agent" })
+
+			-- Quick prompts
+			vim.keymap.set({ "n", "x" }, "<leader>cr", function() require("opencode").prompt("review") end,
+				{ desc = "Review code" })
+			vim.keymap.set({ "n", "x" }, "<leader>cf", function() require("opencode").prompt("fix") end,
+				{ desc = "Fix diagnostics" })
+			vim.keymap.set({ "n", "x" }, "<leader>ck", function() require("opencode").prompt("explain") end,
+				{ desc = "Explain code" })
+			vim.keymap.set({ "n", "x" }, "<leader>cv", function() require("opencode").prompt("optimize") end,
+				{ desc = "Optimize code" })
+			vim.keymap.set({ "n", "x" }, "<leader>cb", function() require("opencode").prompt("document") end,
+				{ desc = "Document code" })
+			vim.keymap.set({ "n", "x" }, "<leader>cT", function() require("opencode").prompt("test") end,
+				{ desc = "Add tests" })
+			vim.keymap.set({ "n", "x" }, "<leader>cm", function() require("opencode").prompt("implement") end,
+				{ desc = "Implement" })
+			vim.keymap.set("n", "<leader>cF", function() require("opencode").prompt("diagnostics") end,
+				{ desc = "Explain diagnostics" })
+			vim.keymap.set("n", "<leader>cR", function() require("opencode").prompt("diff") end,
+				{ desc = "Review diff" })
 		end,
-	},
+	}
 }
