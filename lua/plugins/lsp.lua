@@ -69,6 +69,8 @@ return {
 			vim.lsp.enable('nixd')
 			-- Markdown
 			vim.lsp.enable('marksman')
+			-- Terraform
+			vim.lsp.enable('terraformls')
 			-- OpenTofu
 			vim.lsp.config('tofu_ls', {
 				cmd = {'tofu-ls', 'serve'},
