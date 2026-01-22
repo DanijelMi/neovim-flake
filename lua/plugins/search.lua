@@ -75,7 +75,7 @@ return {
 				"<leader>fd",
 				function()
 					Snacks.picker.dirs({
-						cwd = vim.fs.normalize("~"),
+						cwd = vim.fn.getcwd(),
 						cmd = "fd",
 						args = { ".", "--type", "directory" },
 						title = "Directory Search",
@@ -163,7 +163,7 @@ return {
 				"<leader>fR",
 				function()
 					Snacks.picker.dirs({
-						cwd = vim.fs.normalize("~"),
+						cwd = vim.fn.getcwd(),
 						cmd = "fd",
 						args = { "--hidden", "--type", "directory", ".git$", "--exec", "dirname", "{}" },
 						title = "Local Git Repositories",
