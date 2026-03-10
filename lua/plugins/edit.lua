@@ -74,6 +74,12 @@ return {
 						cyclic = true,
 						preserve_case = true,
 					}),
+					augend.constant.new({
+						elements = { "off", "on" },
+						word = true,
+						cyclic = true,
+						preserve_case = true,
+					}),
 				},
 			})
 		end,

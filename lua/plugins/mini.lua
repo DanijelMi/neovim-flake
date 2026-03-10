@@ -119,7 +119,7 @@ return {
 			-- Icon set
 			require("mini.icons").setup()
 
-			-- for CodeCompanion
+			-- For inline diff display
 			require('mini.diff').setup()
 		end,
 	},

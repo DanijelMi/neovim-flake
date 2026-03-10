@@ -2,7 +2,6 @@ return {
 	{
 		"saghen/blink.cmp",
 		dependencies = {
-			{ "olimorris/codecompanion.nvim", },
 			{
 				"L3MON4D3/LuaSnip", -- Advanced Snippet Framework, does not come with any snippets
 				version = "v2.*",
@@ -177,10 +176,6 @@ return {
 							score_offset = 10, -- Boost/penalize the score of the items
 							override = nil, -- Override the source's functions
 						},
-						-- Sometime fails due to race condition
-						-- codecompanion = {
-						-- 	score_offset = 70
-						-- },
 						lazydev = {
 							name = "LazyDev",
 							module = "lazydev.integrations.blink",
