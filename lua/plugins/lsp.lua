@@ -48,23 +48,25 @@ return {
 			--  By default, Neovim doesn't support everything that is in the LSP specification.
 			--  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
 			--  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
-			local capabilities = require("blink.cmp").get_lsp_capabilities()
+		local capabilities = require("blink.cmp").get_lsp_capabilities()
+		-- Apply blink.cmp capabilities to all LSP servers globally
+		vim.lsp.config('*', { capabilities = capabilities })
 
-			-- Lua
-			vim.lsp.enable('lua_ls')
-			vim.lsp.config('luals', {
-				filetypes = { 'lua' },
-				settings = {
-					Lua = {
-						runtime = {
-							version = 'LuaJIT',
-						},
-						hint = {
-							enable = true
-						}
+		-- Lua
+		vim.lsp.enable('lua_ls')
+		vim.lsp.config('lua_ls', {
+			filetypes = { 'lua' },
+			settings = {
+				Lua = {
+					runtime = {
+						version = 'LuaJIT',
+					},
+					hint = {
+						enable = true
 					}
 				}
-			})
+			}
+		})
 			-- Nix
 			vim.lsp.enable('nixd')
 			-- Markdown
