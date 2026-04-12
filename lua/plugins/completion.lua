@@ -195,7 +195,9 @@ return {
 							min_keyword_length = 3,
 							-- https://github.com/dwyl/english-words
 							opts = {
-								dictionary_directories = { vim.fn.stdpath("config") .. "/lua/config/dicts" },
+								dictionary_directories = {
+									vim.fn.stdpath("config") .. "/lua/config/dicts"
+								},
 							},
 						},
 					},
@@ -241,8 +243,10 @@ return {
 					},
 				},
 			})
-			require("luasnip.loaders.from_vscode").lazy_load()                  -- Loads friendly-snippets
-			require("luasnip.loaders.from_vscode").load({ paths = "./snippets/" }) -- dir relative to $MYVIMRC
+		require("luasnip.loaders.from_vscode").lazy_load()                  -- Loads friendly-snippets
+		require("luasnip.loaders.from_vscode").load({                        -- dir relative to config root
+			paths = vim.fn.stdpath("config") .. "/snippets",
+		})
 		end,
 	},
 }
