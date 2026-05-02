@@ -2,11 +2,11 @@
 default:
     @just --list
 
-[doc('Build opencode-nix')]
+[doc('Build neovim')]
 build:
     nix build
 
-[doc('Build and run opencode-nix')]
+[doc('Build and run neovim')]
 run:
     nix run
 

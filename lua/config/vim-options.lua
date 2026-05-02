@@ -92,6 +92,9 @@ end, { noremap = true, silent = true, desc = "Comment & duplicate line" })
 -- Close entire neovim tab
 vim.keymap.set("n", "<C-w>Q", ":tabclose<CR>", { desc = "Close current tab" })
 
+-- Undo tree (built-in nvim 0.12+)
+vim.keymap.set("n", "<leader>u", "<cmd>Undotree<CR>", { desc = "Toggle Undotree" })
+
 -- Calculate simple math, visual only
 vim.api.nvim_set_keymap("v", "g=", [[c<C-r>=<C-r>"<CR><Esc>]],
 	{ noremap = true, silent = true, desc = "Calculate visual selection" }

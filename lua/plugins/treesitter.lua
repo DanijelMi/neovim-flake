@@ -9,6 +9,19 @@ return {
 			-- To update all installed parsers: :TSUpdate
 			-- Parsers are stored in stdpath('data')/site/parser/ (main branch default)
 
+			-- Ensure parsers for commonly used languages are installed
+			require("nvim-treesitter").install({
+				"bash",
+				"json",
+				"lua",
+				"markdown",
+				"markdown_inline",
+				"nix",
+				"python",
+				"terraform",
+				"yaml",
+			})
+
 			-- Enable treesitter highlighting for all filetypes, skipping large files
 			vim.api.nvim_create_autocmd("FileType", {
 				callback = function(args)
