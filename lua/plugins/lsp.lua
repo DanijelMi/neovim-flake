@@ -9,12 +9,21 @@ return {
 				-- Load luvit types when the `vim.uv` word is found
 				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
 			},
+			integrations = {
+				-- Disable lspconfig integration — we use native vim.lsp.config (nvim 0.12+)
+				lspconfig = false,
+			},
 		},
 	},
 	{
-		-- Quickstart configs for Nvim LSP
+		-- Provides lsp/*.lua base configs for 300+ servers (passive — no setup() needed)
 		"neovim/nvim-lspconfig",
-		dependencies = "saghen/blink.cmp",
+		lazy = false,
+	},
+	{
+		-- LSP setup — uses native vim.lsp.config/enable API (nvim 0.12+)
+		-- Base server configs come from nvim-lspconfig; overrides live in after/lsp/*.lua
+		"saghen/blink.cmp", -- dependency anchor; ensures blink is loaded before capabilities are set
 		config = function()
 			-- Diagnostic Config
 			-- See :help vim.diagnostic.Opts
@@ -43,78 +52,47 @@ return {
 				{ desc = "Toggle diagnostics" }
 			)
 
-			local lspconfig = require("lspconfig")
-			-- - LSP servers and clients are able to communicate to each other what features they support.
-			--  By default, Neovim doesn't support everything that is in the LSP specification.
-			--  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
-			--  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
-		local capabilities = require("blink.cmp").get_lsp_capabilities()
-		-- Apply blink.cmp capabilities to all LSP servers globally
-		vim.lsp.config('*', { capabilities = capabilities })
+			-- LSP servers and clients communicate what features they support.
+			-- blink.cmp extends Neovim's default capabilities, so we broadcast that to all servers.
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
+			vim.lsp.config('*', { capabilities = capabilities })
 
-		-- Lua
-		vim.lsp.enable('lua_ls')
-		vim.lsp.config('lua_ls', {
-			filetypes = { 'lua' },
-			settings = {
-				Lua = {
-					runtime = {
-						version = 'LuaJIT',
-					},
-					hint = {
-						enable = true
-					}
-				}
-			}
-		})
-			-- Nix
-			vim.lsp.enable('nixd')
-			-- Markdown
-			vim.lsp.enable('marksman')
-			-- Terraform
-			vim.lsp.enable('terraformls')
-			-- OpenTofu
-			vim.lsp.config('tofu_ls', {
-				cmd = {'tofu-ls', 'serve'},
-				filetypes = {'terraform', 'terraform-vars'},
-				root_markers = { '.terraform', '.git'},
-			})
-			vim.lsp.enable('tofu_ls')
-			vim.lsp.enable('tflint')
-			-- Bash
-			vim.lsp.enable('bashls')
-			-- Python
-			vim.lsp.enable('basedpyright')
-			-- Grammar
-			vim.lsp.enable('harper_ls')
-			vim.lsp.config('harper_ls', {
-				filetypes = { "markdown", "text" },
-			})
-			-- JSON
-			vim.lsp.enable('jsonls')
+			-- Overrides on top of nvim-lspconfig defaults
+			vim.lsp.config('harper_ls', { filetypes = { 'markdown', 'text' } })
 			vim.lsp.config('jsonls', {
-				schemas = require("schemastore").json.schemas(),
-				validate = { enable = true }
+				settings = {
+					json = {
+						schemas = require('schemastore').json.schemas(),
+						validate = { enable = true },
+					},
+				},
 			})
-			-- YAML
-			vim.lsp.enable('yamlls')
 			vim.lsp.config('yamlls', {
 				settings = {
 					yaml = {
 						schemaStore = {
-							-- Disable built-in schemaStore fetching, we are relying on schemastore plugin
 							enable = false,
 							-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-							url = "",
+							url = '',
 						},
-						schemas = require("schemastore").yaml.schemas(),
+						schemas = require('schemastore').yaml.schemas(),
 					},
 				},
 			})
-			-- Gitlab (depends on yamlls + gitlab schema)
-			vim.lsp.enable('gitlab_ci_ls')
-			-- -- PostgreSQL
-			vim.lsp.enable('postgres_lsp')
+
+			vim.lsp.enable({
+				'lua_ls',
+				'nixd',
+				'marksman',
+				'terraformls',
+				'tflint',
+				'bashls',
+				'basedpyright',
+				'harper_ls',
+				'jsonls',
+				'yamlls',
+				'gitlab_ci_ls',
+			})
 
 			-- vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "LSP: Show diagnostic" })
 			-- vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "LSP: setloclist" })
@@ -123,33 +101,17 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 				callback = function(event)
-					-- In this case, we create a function that lets us more easily define mappings specific
-					-- for LSP related items. It sets the mode, buffer and description for us each time.
+					-- Helper to create buffer-local LSP keymaps
 					local map = function(keys, func, desc, mode)
 						mode = mode or "n"
 						vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
-					-- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
-					---@param client vim.lsp.Client
-					---@param method vim.lsp.protocol.Method
-					---@param bufnr? integer some lsp support methods only in specific files
-					---@return boolean
-					local function client_supports_method(client, method, bufnr)
-						return client:supports_method(method, bufnr)
-					end
-
-					-- highlight references of the word under your cursor when your cursor rests there for a little while.
-					--    See `:help CursorHold` for information about when this is executed
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					if
-							client
-							and client_supports_method(
-								client,
-								vim.lsp.protocol.Methods.textDocument_documentHighlight,
-								event.buf
-							)
-					then
+
+					-- Highlight references of the word under your cursor when it rests there.
+					-- See `:help CursorHold` for when this fires.
+					if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
 						local highlight_augroup =
 								vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -172,13 +134,8 @@ return {
 						})
 					end
 
-					-- The following code creates a keymap to toggle inlay hints in your
-					-- code, if the language server you are using supports them
-					-- This may be unwanted, since they displace some of your code
-					if
-							client
-							and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
-					then
+					-- Toggle inlay hints if the server supports them
+					if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
 						map("<leader>th", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 						end, "[T]oggle Inlay [H]ints")
@@ -191,9 +148,7 @@ return {
 		"rachartier/tiny-code-action.nvim",
 		dependencies = {
 			{ "nvim-lua/plenary.nvim" },
-			{
-				"folke/snacks.nvim",
-			},
+			{ "folke/snacks.nvim" },
 		},
 		event = "LspAttach",
 		opts = {
@@ -227,8 +182,7 @@ return {
 		},
 	},
 	{
-		-- Provide JsonSchema support to jsonls
-		-- Redundant for yamlls but still used for advanced optional features
+		-- Provides JSON/YAML schema lists for jsonls and yamlls
 		"b0o/schemastore.nvim",
 	},
 	{
@@ -241,7 +195,7 @@ return {
 				schemas = {},
 				enable_telescope = false,
 				sources = {
-					require("schema-companion").sources.lsp.setup()
+					require("schema-companion").sources.lsp.setup(),
 				},
 				matchers = {
 					require("schema-companion").sources.matchers.kubernetes.setup({ version = "master" }),
