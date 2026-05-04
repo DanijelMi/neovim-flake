@@ -1,3 +1,11 @@
+-- FILETYPE DETECTION OVERRIDES
+-- Override the default more nuanced rule, just evaluate based off of extension
+vim.filetype.add({
+	extension = {
+		tf = "terraform",
+	},
+})
+
 -- GENERAL OPTIONS
 vim.opt.mouse = "a"                               -- Mouse support in all modes
 -- vim.cmd [[autocmd BufEnter * silent! lcd %:p:h]]
