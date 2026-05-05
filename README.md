@@ -1,6 +1,6 @@
 # dvim
 
-Dane's Neovim configuration, packaged as a self-contained Nix flake.
+Neovim configuration, packaged as a self-contained Nix flake.
 
 Runs as `dvim` with `NVIM_APPNAME=dvim` so it never conflicts with a system `nvim`.
 
@@ -56,21 +56,7 @@ Enables dvim. Adds the `dvim` binary to `home.packages` with all bundled tools a
 **Type:** `bool`  
 **Default:** `false`
 
-Installs the [Neovide](https://neovide.dev) GUI frontend and configures it with the following settings:
-
-| Setting        | Value  |
-|----------------|--------|
-| `fork`         | `false` |
-| `frame`        | `"full"` |
-| `idle`         | `true` |
-| `maximized`    | `false` |
-| `no-multigrid` | `false` |
-| `srgb`         | `false` |
-| `tabs`         | `true` |
-| `theme`        | `"auto"` |
-| `title-hidden` | `true` |
-| `vsync`        | `true` |
-| `wsl`          | `false` |
+Installs the [Neovide](https://neovide.dev) GUI frontend and configures it.
 
 ## Bundled Tools
 
