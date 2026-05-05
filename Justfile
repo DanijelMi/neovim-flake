@@ -14,13 +14,14 @@ run:
 update:
     nix flake update
 
+# Extract the nvim binary from the current dvim wrapper (avoids hardcoding store paths)
+nvim := `grep -o '/nix/store[^ ]*/bin/nvim' $(which dvim)`
 config := justfile_directory()
 
 [doc('Fast startup check — runs headless against local source without a nix build')]
 check:
     @echo "Testing local config..."
-    @nvim=$(grep -o '/nix/store[^ ]*/bin/nvim' $(which dvim)) && \
-     NVIM_APPNAME=dvim "$nvim" --headless --cmd "set rtp^={{ config }}" -u {{ config }}/init.lua -c "qa" && echo "OK"
+    @NVIM_APPNAME=dvim {{ nvim }} --headless --cmd "set rtp^={{ config }}" -u {{ config }}/init.lua -c "qa" && echo "OK"
 
 [doc('Full build then startup check against the built store path')]
 test:
