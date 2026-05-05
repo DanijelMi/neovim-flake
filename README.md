@@ -9,13 +9,13 @@ Runs as `dvim` with `NVIM_APPNAME=dvim` so it never conflicts with a system `nvi
 ### Run directly
 
 ```bash
-nix run github:DanijelMi/neovim
+nix run github:DanijelMi/neovim-flake
 ```
 
 ### Install via `nix profile`
 
 ```bash
-nix profile install github:DanijelMi/neovim
+nix profile install github:DanijelMi/neovim-flake
 ```
 
 ### Home Manager (recommended)
@@ -25,7 +25,7 @@ Add to your flake inputs and import the module:
 ```nix
 # flake.nix
 inputs = {
-  dvim.url = "github:DanijelMi/neovim";
+  dvim.url = "github:DanijelMi/neovim-flake";
   dvim.inputs.nixpkgs.follows = "nixpkgs";
 };
 ```
