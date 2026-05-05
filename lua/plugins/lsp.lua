@@ -16,13 +16,8 @@ return {
 		},
 	},
 	{
-		-- Provides lsp/*.lua base configs for 300+ servers (passive — no setup() needed)
-		"neovim/nvim-lspconfig",
-		lazy = false,
-	},
-	{
 		-- LSP setup — uses native vim.lsp.config/enable API (nvim 0.12+)
-		-- Base server configs come from nvim-lspconfig; overrides live in after/lsp/*.lua
+		-- Server default configs live in lsp/*.lua at the repo root (auto-discovered via rtp)
 		"saghen/blink.cmp", -- dependency anchor; ensures blink is loaded before capabilities are set
 		config = function()
 			-- Diagnostic Config
@@ -57,34 +52,13 @@ return {
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			vim.lsp.config('*', { capabilities = capabilities })
 
-			-- Overrides on top of nvim-lspconfig defaults
-			vim.lsp.config('harper_ls', { filetypes = { 'markdown', 'text' } })
-			vim.lsp.config('jsonls', {
-				settings = {
-					json = {
-						schemas = require('schemastore').json.schemas(),
-						validate = { enable = true },
-					},
-				},
-			})
-			vim.lsp.config('yamlls', {
-				settings = {
-					yaml = {
-						schemaStore = {
-							enable = false,
-							-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-							url = '',
-						},
-						schemas = require('schemastore').yaml.schemas(),
-					},
-				},
-			})
-
+			-- All server configs live in lsp/*.lua (auto-discovered via rtp)
 			vim.lsp.enable({
 				'lua_ls',
 				'nixd',
 				'marksman',
 				'terraformls',
+				'tofu_ls',
 				'tflint',
 				'bashls',
 				'basedpyright',
@@ -92,6 +66,7 @@ return {
 				'jsonls',
 				'yamlls',
 				'gitlab_ci_ls',
+				'postgres_lsp',
 			})
 
 			-- vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "LSP: Show diagnostic" })

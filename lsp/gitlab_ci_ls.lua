@@ -1,3 +1,4 @@
+-- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/gitlab_ci_ls.lua
 local cache_dir = vim.uv.os_homedir() .. '/.cache/gitlab-ci-ls/'
 
 ---@type vim.lsp.Config
