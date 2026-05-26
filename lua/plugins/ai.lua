@@ -93,6 +93,9 @@ return {
 				{ desc = "Explain diagnostics" })
 			vim.keymap.set("n", "<leader>cR", function() require("opencode").prompt("diff") end,
 				{ desc = "Review diff" })
+			vim.keymap.set("n", "<leader>cS", function()
+				require("opencode").prompt("Summarize the content and purpose of this file: @buffer", { submit = true })
+			end, { desc = "Summarize buffer" })
 		end,
 	}
 }
